@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cases reais — GA Business Insights</title>
+<meta name="description" content="Casos reais de BI e dados aplicados a negócios em Palmas/TO. Reativação de base e estruturação de sistema do zero.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0a12;--card:#181423;--gold:#d4af37;--gold-soft:#e7c65a;
+    --red:#e5484d;--text:#fff;--muted:#9a93a8;--line:rgba(255,255,255,.07);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);
+    -webkit-font-smoothing:antialiased;padding:34px 22px 60px;position:relative;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 50% at 50% 0%,#000 30%,transparent 100%);
+            mask-image:radial-gradient(ellipse 90% 50% at 50% 0%,#000 30%,transparent 100%);
+    pointer-events:none;
+  }
+  .wrap{max-width:640px;margin:0 auto;position:relative;z-index:1}
+
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:34px}
+  .back{
+    text-decoration:none;color:var(--muted);font-family:'JetBrains Mono',monospace;
+    font-size:12px;letter-spacing:1px;transition:color .2s;
+  }
+  .back:hover{color:var(--gold)}
+  .brand{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--gold)}
+
+  h1{font-size:30px;font-weight:800;letter-spacing:-.5px;line-height:1.15;margin-bottom:8px}
+  .lead{color:var(--muted);font-size:15px;line-height:1.5;margin-bottom:40px;max-width:520px}
+
+  .case{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:28px 26px;margin-bottom:24px;position:relative;overflow:hidden;
+  }
+  .case::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--gold),transparent)}
+  .label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:14px}
+  .case h2{font-size:21px;font-weight:800;line-height:1.25;margin-bottom:6px}
+  .case .ctx{color:var(--muted);font-size:14px;line-height:1.55;margin-bottom:22px}
+
+  .case-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .case-head .label{margin-bottom:0}
+  .client-logo{width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--line);flex:0 0 44px;margin-left:auto}
+
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+  .stat{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .stat .n{font-size:26px;font-weight:800;line-height:1;letter-spacing:-1px}
+  .stat .n.gold{color:var(--gold)}
+  .stat .n.red{color:var(--red)}
+  .stat .d{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.4}
+  .stat.full{grid-column:1 / -1}
+
+  .result{
+    display:flex;gap:12px;align-items:flex-start;
+    background:rgba(212,175,55,.07);border:1px solid rgba(212,175,55,.22);
+    border-radius:12px;padding:14px 16px;margin-bottom:20px;
+  }
+  .result .ic{color:var(--gold);font-size:16px;line-height:1.5}
+  .result .t{font-size:14px;line-height:1.5}
+  .result .t b{color:var(--gold-soft)}
+
+  .case-links{display:flex;flex-wrap:wrap;gap:10px}
+  a.pill{
+    text-decoration:none;font-size:13px;font-weight:600;color:var(--text);
+    padding:10px 16px;border-radius:10px;border:1px solid var(--line);
+    background:rgba(255,255,255,.03);transition:border-color .2s,transform .12s;
+  }
+  a.pill:hover{border-color:rgba(212,175,55,.45);transform:translateY(-1px)}
+  a.pill.gold{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#1a1206;border:none}
+
+  .bottom{text-align:center;margin-top:44px}
+  .bottom p{font-size:18px;font-weight:600;margin-bottom:18px;line-height:1.4}
+  a.cta{
+    display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+    background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#1a1206;
+    font-weight:800;font-size:15px;padding:16px 26px;border-radius:14px;
+    box-shadow:0 8px 28px rgba(212,175,55,.28);transition:transform .12s;
+  }
+  a.cta:hover{transform:translateY(-2px)}
+
+  footer{margin-top:46px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--muted)}
+
+  @media(max-width:480px){
+    h1{font-size:25px}
+    .stats{grid-template-columns:1fr 1fr}
+    .stat .n{font-size:23px}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class='back' href='/'>← voltar</a>
+      <span class="brand">GA · CASES REAIS</span>
+    </div>
+
+    <h1>Dados que viraram decisão.</h1>
+    <p class="lead">Dois casos reais. Números reais. O que estava escondido na planilha — e o dinheiro que isso movimentou.</p>
+
+    <!-- CASE 1 -->
+    <article class="case">
+      <div class="label">Case 01 · Varejo de moda · Palmas/TO</div>
+      <h2>R$ 280 mil/ano vazando — e a dona não sabia.</h2>
+      <p class="ctx">O sistema mostrava venda, mas não mostrava ausência. 93,82% da base estava inativa e isso não aparecia em nenhum relatório. Transformamos a planilha de movimentação em uma lista pronta de clientes pra reativar.</p>
+      <div class="stats">
+        <div class="stat"><div class="n gold">1.200</div><div class="d">clientes na base</div></div>
+        <div class="stat"><div class="n red">1.126</div><div class="d">não compravam mais (93,82%)</div></div>
+        <div class="stat"><div class="n red">R$ 280 mil</div><div class="d">saindo da conta por ano, em silêncio</div></div>
+        <div class="stat"><div class="n gold">238</div><div class="d">clientes prontos pra reativar</div></div>
+      </div>
+      <div class="result">
+        <span class="ic">✦</span>
+        <span class="t"><b>Resultado:</b> ROI projetado de <b>R$ 56 mil em uma semana</b> de campanha de reativação — usando dados que já existiam, mas ninguém lia.</span>
+      </div>
+    </article>
+
+    <!-- CASE 2 -->
+    <article class="case">
+      <div class="case-head">
+        <div class="label">Case 02 · Loja virtual de moda fitness</div>
+        <!-- Logo do cliente: salve como levity.png nesta pasta pra ativar -->
+        <img class="client-logo" src="levity.png" alt="Levity Athletics" onerror="this.style.display='none'">
+      </div>
+      <h2>Do zero a um sistema completo — com R$ 0 de infraestrutura.</h2>
+      <p class="ctx">Sem gestão, sem visão, sem sistema, sem controle. Estruturamos a operação inteira: uma vitrine digital que dispara pedido automático no WhatsApp e um sistema de gestão sob medida — tudo rodando sem custo de servidor.</p>
+      <div class="stats">
+        <div class="stat full"><div class="n gold">R$ 0</div><div class="d">de custo de infraestrutura — sistema completo rodando sobre Google</div></div>
+        <div class="stat"><div class="n gold">Vitrine</div><div class="d">catálogo com pedido automático no WhatsApp</div></div>
+        <div class="stat"><div class="n gold">Gestão</div><div class="d">sistema sob medida pra controlar a operação</div></div>
+      </div>
+      <div class="result">
+        <span class="ic">✦</span>
+        <span class="t"><b>Resultado:</b> uma loja que operava no escuro passou a ter <b>vitrine + gestão funcionando</b> — sem gastar com plataforma, mensalidade ou servidor.</span>
+      </div>
+      <div class="case-links">
+        <a class="pill" href="https://bit.ly/Vitrine-Levity" target="_blank" rel="noopener">Ver a vitrine →</a>
+        <a class='pill' href='/sistema-demo'>Ver demonstração do sistema →</a>
+        <a class="pill gold" href="https://wa.me/5563981493039?text=Oi%2C%20Gabriel!%20Vi%20o%20case%20da%20loja%20fitness%20e%20quero%20um%20sistema%20de%20gest%C3%A3o%20assim." target="_blank" rel="noopener">Quero um sistema assim →</a>
+      </div>
+    </article>
+
+    <div class="bottom">
+      <p>Quantos clientes da sua base estão inativos agora?</p>
+      <a class="cta" href="https://wa.me/5563981493039?text=Oi%2C%20Gabriel!%20Vi%20os%20cases%20e%20quero%20um%20diagn%C3%B3stico%20dos%20meus%20dados." target="_blank" rel="noopener">
+        ✦ Agendar diagnóstico gratuito →
+      </a>
+    </div>
+
+    <footer>GA Business Insights · BI · Dados · Decisão · Palmas/TO</footer>
+  </div>
+</body>
+</html>
