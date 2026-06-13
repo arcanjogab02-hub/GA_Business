@@ -7,25 +7,28 @@
 
 ## Cores
 
-- **Fundo principal:** #0B0B14 (preto com toque azulado — quase preto)
-- **Cor de destaque / CTA:** #C8A830 (dourado âmbar — cor de identidade)
-- **Texto principal:** #FFFFFF (branco puro sobre fundo escuro)
-- **Texto secundário / subtítulos:** #8A8A9A (cinza suave)
-- **Fundo alternativo / cards:** #141420 (variação levemente mais clara do fundo)
-- **Cor proibida:** branco puro como fundo, tons pastéis, gradientes coloridos
+> Valores oficiais extraídos do CSS do site (bio-link/index.html).
 
-> Confirmar os hexadecimais exatos com o arquivo original da marca se houver divergência.
+- **Fundo principal:** `#0c0a12` (preto com toque violáceo)
+- **Fundo secundário:** `#14111d`
+- **Cards:** `#181423`
+- **Cor de destaque / CTA:** `#d4af37` (dourado) — variação suave `#e7c65a`
+- **Texto principal:** `#ffffff`
+- **Texto secundário / muted:** `#9a93a8`
+- **Vermelho (alerta/dado negativo):** `#e5484d` (uso pontual — ex: número de perda)
+- **Linhas / divisores:** `rgba(255,255,255,.07)`
+- **Cor proibida:** branco puro como fundo, tons pastéis, gradientes coloridos fora do dourado
 
 ---
 
 ## Tipografia
 
-- **Títulos e destaques:** sans-serif bold/extrabold — peso 700-900 (referência visual: Barlow, Montserrat ou similar)
-- **Corpo, subtítulos e botões:** mesma família, peso regular a medium (400-500)
-- **Labels / tags / numeração:** monospace ou caixa alta espaçada (ex: `· EDUCAÇÃO BI ·`, `01/08`)
-- **Peso do título:** extrabold — ocupa espaço intencional na tela
+> Fontes oficiais do site: **Inter** + **JetBrains Mono** (Google Fonts).
 
-> Confirmar família tipográfica exata com os arquivos do Canva ou ferramenta de criação usada.
+- **Títulos e destaques:** Inter — pesos 700-900 (bold a black)
+- **Corpo, subtítulos e botões:** Inter — pesos 400-600
+- **Labels / tags / numeração:** JetBrains Mono — caixa alta, letter-spacing 2px (ex: `BI · DADOS · DECISÃO`, `01/08`, `▸ DESTAQUE`)
+- **Peso do título:** extrabold/black — ocupa espaço intencional na tela
 
 ---
 
@@ -37,12 +40,14 @@ Minimalismo escuro com intenção. Muito respiro — o espaço vazio é parte do
 
 ## Elementos-chave
 
-- **Bordas:** sem bordas arredondadas — ângulos retos
-- **Border-radius dos cards:** 0 ou mínimo (2-4px no máximo)
-- **Botões / CTAs:** texto simples, sem bordas pesadas — seta (→ ↓) como indicador de ação
-- **Sombras:** sem sombras — profundidade pelo contraste de cor
-- **Divisores:** linha fina horizontal (1-2px, dourado ou branco com baixa opacidade)
-- **Numeração:** estilo tipográfico em canto superior (`01 / 05`) ou lateral
+> Distinção importante: **carrosséis** usam estética mais reta/editorial; **web (bio, landing, sistema)** usa cards arredondados e brilho dourado. Os dois convivem na mesma paleta.
+
+- **Border-radius (web):** 14px nos cards e botões
+- **Botões / CTAs:** CTA principal em gradiente dourado (`#e7c65a → #d4af37`), texto escuro `#1a1206`; secundários em card escuro com borda fina. Seta (→ ↓) como indicador de ação
+- **Sombras / brilho:** glow dourado suave permitido — `box-shadow: 0 8px 28px rgba(212,175,55,.28)` no CTA; brilho radial no topo da página
+- **Grid de fundo:** linhas finas 64×64px com máscara radial (assinatura visual — aparece em carrossel e web)
+- **Divisores:** linha fina horizontal (1px, branco a ~7% de opacidade)
+- **Numeração:** estilo tipográfico mono em canto (`01 / 05`) ou lateral
 
 ---
 
