@@ -107,7 +107,7 @@ A amostra grátis tem objetivo triplo:
 
 ## Saída / registro
 
-- Salvar o diagnóstico (a frase + SPIN resumido) e o plano da amostra em `clientes/<Nome>/` se a pasta já existe. Senão, guardar pra colar no `briefing.md` quando rodar /novo-projeto.
+- Salvar o diagnóstico (a frase + SPIN resumido) em `clientes/<Cliente>/diagnostico.md` se o cliente já existe. Senão, guardar pra colar quando rodar /novo-projeto (que cria a pasta do cliente).
 
 ## Integra com
 

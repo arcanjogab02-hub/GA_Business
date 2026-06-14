@@ -57,7 +57,7 @@ Exemplo da marca: a loja com 1.200 clientes e 1.126 inativos que a dona não enx
 - [ ] Visualização certa pro tipo de dado (revisar pizzas e tabelas longas).
 - [ ] Identidade GA aplicada (limpo, dourado de destaque, número grande, respiro).
 - [ ] Cliente consegue acessar/atualizar sozinho (link, permissão, ou rotina de refresh).
-- [ ] Se virou caso de sucesso → documentar em `clientes/<Nome>/caso.md`.
+- [ ] Se virou caso de sucesso → documentar em `clientes/<Cliente>/projetos/<Projeto>/caso.md`.
 
 ## Integra com
 

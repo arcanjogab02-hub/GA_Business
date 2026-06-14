@@ -124,11 +124,11 @@ Reusar as palavras que o cliente disse na call (estado desejado) — vêm do reg
 
 Cliente aceitou. Estruturar o trabalho:
 
-1. Rodar **/novo-projeto** pra criar `clientes/<Nome>/` com CLAUDE.md, briefing e subpastas das entregas.
-2. Colar o diagnóstico e a proposta fechada no `briefing.md`.
+1. Rodar **/novo-projeto** — cria/usa `clientes/<Cliente>/` e abre o projeto em `clientes/<Cliente>/projetos/<Projeto>/` com CLAUDE.md, briefing e `entregas/`.
+2. Diagnóstico vai em `clientes/<Cliente>/diagnostico.md`; a proposta fechada e o escopo vão no `briefing.md` do projeto.
 3. Registrar a stack escolhida e o porquê no CLAUDE.md do projeto.
 
-**Portão:** pasta do cliente criada e briefing preenchido.
+**Portão:** pasta do projeto criada e briefing preenchido.
 
 ---
 
@@ -163,7 +163,7 @@ Antes de mostrar pro cliente:
 
 ## Fase 9 — Pós e caso de sucesso
 
-1. Documentar em `clientes/<Nome>/caso.md` — problema, número antes/depois, o que foi entregue.
+1. Documentar em `clientes/<Cliente>/projetos/<Projeto>/caso.md` — problema, número antes/depois, o que foi entregue.
 2. Pedir depoimento enquanto o resultado está fresco.
 3. Reusar o caso em conteúdo (/publicar-tema, /carrossel) e em propostas futuras.
 

@@ -5,7 +5,7 @@ Operação da consultoria. Aqui ficam todos os clientes, conteúdos, entregas e 
 **Estrutura de pastas:**
 - `_memoria/` — quem é a empresa, como falamos, foco atual
 - `identidade/` — marca da GA (logo, cores, fontes — aplicada em tudo que o sistema gera)
-- `clientes/` — uma subpasta por cliente, autossuficiente
+- `clientes/` — uma pasta por cliente; dentro, `projetos/` com um projeto por subpasta (cliente > projetos). Local (gitignorado — contém dado de cliente)
 - `marketing/` — conteúdo institucional (posts, carrosséis, artigos)
 - `saidas/` — documentos pontuais, análises, relatórios entregues
 - `dados/` — arquivos a analisar (exports, CSVs de cliente)
@@ -60,8 +60,9 @@ Só perguntar quando o padrão de repetição for claro — não pra tarefas pon
 
 ## Regras do sistema
 
-- **Cliente novo** → criar pasta `clientes/<Nome>/` com briefing e subpastas conforme as entregas contratadas
-- **Case de sucesso** → documentar em `clientes/<Nome>/caso.md` (reutilizar em conteúdo e pitches)
+- **Cliente novo** → rodar `/novo-projeto`: cria `clientes/<Cliente>/` (identidade + diagnóstico) e o primeiro projeto em `clientes/<Cliente>/projetos/<Projeto>/`
+- **Projeto novo de cliente existente** → `/novo-projeto` adiciona outra subpasta em `clientes/<Cliente>/projetos/`
+- **Case de sucesso** → documentar em `clientes/<Cliente>/projetos/<Projeto>/caso.md` (reutilizar em conteúdo e pitches)
 - **Post novo** → produzir via `/publicar-tema` ou `/carrossel`, salvar em `marketing/`
 - **Relatório de ads** → rodar `/relatorio-ads` com os exports em `dados/`
 - **Mudança de foco ou prioridade** → atualizar `_memoria/estrategia.md`

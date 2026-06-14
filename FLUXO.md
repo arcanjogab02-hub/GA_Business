@@ -15,7 +15,7 @@ CAPTAÇÃO → DIAGNÓSTICO (call) → ENTREGÁVEL+STACK → AMOSTRA GRÁTIS →
 | 3 | Definir entregável + stack | `/fluxo-cliente` (tabela de decisão) | sei o que entregar e em qual stack |
 | 4 | Entregável grátis (amostra) | `/diagnostico` (Roteiro 2) + `/esp-*` | cliente viu a amostra e validou a oferta |
 | 5 | Proposta (sem valor automático) | `/fluxo-cliente` | proposta enviada |
-| 6 | Fechamento e estruturação | `/novo-projeto` | pasta `clientes/<Nome>/` criada |
+| 6 | Fechamento e estruturação | `/novo-projeto` | `clientes/<Cliente>/projetos/<Projeto>/` criada |
 | 7 | Execução | `/esp-bi` `/esp-sheets` `/esp-supabase` `/esp-webapp` `/esp-ia` | funcionando em teste |
 | 8 | Entrega | `/esp-seguranca` | cliente usando, sabendo usar, e seguro |
 | 9 | Pós e caso de sucesso | `caso.md` + `/publicar-tema` `/carrossel` | caso documentado |
