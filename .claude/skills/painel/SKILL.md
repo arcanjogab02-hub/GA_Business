@@ -12,7 +12,7 @@ description: >
 O `painel.html` guarda os dados no **localStorage do navegador** — não dá pra escrever direto nele
 daqui. A ponte é o botão **↑ IMPORTAR**, que faz **merge** (soma aos dados atuais, não apaga).
 
-Fonte de verdade do que eu acompanho: **`dados/prospeccoes.json`** (versionado no repo, entra no /salvar).
+Fonte de verdade do que eu acompanho: **`dados/prospeccoes.json`** (fica **local** — `dados/` está no `.gitignore`, então o dado pessoal dos prospects **não vai pro GitHub**).
 Fluxo: eu atualizo esse arquivo → você abre o painel → **↑ IMPORTAR** → seleciona `dados/prospeccoes.json`.
 
 ## Quando usar
@@ -72,7 +72,7 @@ prospect → diagnostico → amostra → proposta → execucao → entregue
 4. Salvar o arquivo (JSON válido — sem vírgula sobrando).
 5. Avisar o usuário:
    > Atualizei `dados/prospeccoes.json`. Pra ver no painel: abre o `painel.html` → **↑ IMPORTAR** → seleciona `dados/prospeccoes.json`. Ele soma, não apaga.
-6. Oferecer `/salvar` pra versionar o arquivo.
+6. Backup é local: o arquivo **não** vai pro GitHub (`dados/` é gitignorado, por privacidade do PII). Pra ter cópia, use o botão **↓ BACKUP** do painel ou copie o `prospeccoes.json` à parte.
 
 ## Como o merge funciona (no painel)
 
@@ -85,7 +85,7 @@ prospect → diagnostico → amostra → proposta → execucao → entregue
 
 - **/fluxo-cliente** — cada avanço de fase vira mudança de `stage` aqui.
 - **/diagnostico** — depois da call, registrar o prospect + a amostra como tarefa.
-- **/salvar** — versiona o `prospeccoes.json`.
+- **↓ BACKUP** (no painel) — cópia local do pipeline. O `prospeccoes.json` **não** é versionado pelo /salvar (privacidade do PII).
 - **painel.html** — onde você visualiza (importa o arquivo).
 
 ## Regras
