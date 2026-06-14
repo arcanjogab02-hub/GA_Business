@@ -212,7 +212,7 @@ main {
 /* ── KANBAN ── */
 .kanban {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 14px;
   overflow-x: auto;
   padding-bottom: 8px;
@@ -703,7 +703,7 @@ main {
       <button id="nav-pend" onclick="showPage('pendencias',this)">PENDÊNCIAS</button>
     </nav>
     <button class="btn-backup" onclick="exportBackup()" title="Baixar backup JSON">↓ BACKUP</button>
-    <button class="btn-backup" onclick="document.getElementById('import-input').click()" title="Restaurar de backup">↑ IMPORTAR</button>
+    <button class="btn-backup" onclick="document.getElementById('import-input').click()" title="Importar e mesclar (soma aos dados atuais, não apaga)">↑ IMPORTAR</button>
     <input type="file" id="import-input" accept=".json" style="display:none" onchange="importBackup(event)">
   </div>
 </header>
@@ -774,6 +774,7 @@ main {
           <select class="fselect" id="c-stage">
             <option value="prospect">Prospect</option>
             <option value="diagnostico">Diagnóstico</option>
+            <option value="amostra">Amostra grátis</option>
             <option value="proposta">Proposta</option>
             <option value="execucao">Execução</option>
             <option value="entregue">Entregue</option>
@@ -854,9 +855,10 @@ main {
 const STAGES = [
   { id: 'prospect',    label: 'Prospect'    },
   { id: 'diagnostico', label: 'Diagnóstico' },
-  { id: 'proposta',   label: 'Proposta'    },
-  { id: 'execucao',   label: 'Execução'    },
-  { id: 'entregue',   label: 'Entregue'    },
+  { id: 'amostra',     label: 'Amostra'     },
+  { id: 'proposta',    label: 'Proposta'    },
+  { id: 'execucao',    label: 'Execução'    },
+  { id: 'entregue',    label: 'Entregue'    },
 ];
 
 // ── STATE ────────────────────────────────────────────────────────────────────
@@ -1274,18 +1276,90 @@ function importBackup(e) {
   const reader = new FileReader();
   reader.onload = ev => {
     try {
-      const parsed = JSON.parse(ev.target.result);
-      if (!parsed.clients || !parsed.tasks) throw new Error('Formato inválido');
-      if (!confirm(`Importar ${parsed.clients.length} cliente(s) e ${parsed.tasks.length} tarefa(s)? Os dados atuais serão substituídos.`)) return;
-      db = parsed;
+      const parsed  = JSON.parse(ev.target.result);
+      const clients = Array.isArray(parsed.clients) ? parsed.clients : [];
+      const tasks   = Array.isArray(parsed.tasks)   ? parsed.tasks   : [];
+      if (!clients.length && !tasks.length) throw new Error('Formato inválido');
+      if (!confirm(`Importar ${clients.length} cliente(s) e ${tasks.length} tarefa(s)?\n\nOs dados são SOMADOS aos atuais: atualiza quem já existe, adiciona quem é novo. Nada é apagado.`)) return;
+      const r = mergeData({ clients, tasks });
       dbSave();
       render();
+      alert(`Importado.\nClientes: ${r.cAdd} novo(s), ${r.cUpd} atualizado(s).\nTarefas: ${r.tAdd} nova(s), ${r.tUpd} atualizada(s).`);
     } catch {
-      alert('Arquivo inválido. Use um backup gerado por este painel.');
+      alert('Arquivo inválido. Use um backup ou um arquivo no formato deste painel.');
     }
   };
   reader.readAsText(file);
   e.target.value = '';
+}
+
+// Mescla dados de entrada nos atuais (não apaga). Match: id, ou empresa+nome.
+function normKey(s) { return (s || '').toString().trim().toLowerCase(); }
+
+function mergeData(incoming) {
+  let cAdd = 0, cUpd = 0, tAdd = 0, tUpd = 0;
+  const idMap = {};   // id do arquivo -> id real no painel (pra religar as tarefas)
+
+  (incoming.clients || []).forEach(inc => {
+    let match = null;
+    if (inc.id) match = db.clients.find(c => c.id === inc.id);
+    if (!match) match = db.clients.find(c =>
+      normKey(c.name) === normKey(inc.name) && normKey(c.company) === normKey(inc.company));
+    if (match) {
+      ['name','company','contact','stage','product','value','notes'].forEach(f => {
+        if (inc[f] !== undefined && inc[f] !== '' && inc[f] !== null) match[f] = inc[f];
+      });
+      if (inc.id) idMap[inc.id] = match.id;
+      cUpd++;
+    } else {
+      const nc = {
+        id:        (inc.id && !db.clients.some(c => c.id === inc.id)) ? inc.id : uid(),
+        name:      inc.name    || '',
+        company:   inc.company || '',
+        contact:   inc.contact || '',
+        stage:     inc.stage   || 'prospect',
+        product:   inc.product || '',
+        value:     inc.value   || '',
+        notes:     inc.notes   || '',
+        createdAt: inc.createdAt || new Date().toISOString(),
+      };
+      if (inc.id) idMap[inc.id] = nc.id;
+      db.clients.push(nc);
+      cAdd++;
+    }
+  });
+
+  (incoming.tasks || []).forEach(inc => {
+    const clientId = inc.clientId ? (idMap[inc.clientId] || inc.clientId) : null;
+    let match = null;
+    if (inc.id) match = db.tasks.find(t => t.id === inc.id);
+    if (!match) match = db.tasks.find(t =>
+      normKey(t.title) === normKey(inc.title) &&
+      (t.clientId || null) === (clientId || null) &&
+      (t.due || null) === (inc.due || null));
+    if (match) {
+      ['title','due','priority','notes'].forEach(f => {
+        if (inc[f] !== undefined && inc[f] !== '' && inc[f] !== null) match[f] = inc[f];
+      });
+      if (inc.done !== undefined) match.done = inc.done;
+      match.clientId = clientId;
+      tUpd++;
+    } else {
+      db.tasks.push({
+        id:        (inc.id && !db.tasks.some(t => t.id === inc.id)) ? inc.id : uid(),
+        title:     inc.title || '',
+        clientId:  clientId,
+        due:       inc.due || null,
+        priority:  inc.priority || 'media',
+        notes:     inc.notes || '',
+        done:      inc.done || false,
+        createdAt: inc.createdAt || new Date().toISOString(),
+      });
+      tAdd++;
+    }
+  });
+
+  return { cAdd, cUpd, tAdd, tUpd };
 }
 
 // ── BOOT ─────────────────────────────────────────────────────────────────────
