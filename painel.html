@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GA — Painel Operacional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #0c0a12;
+  --bg2:    #14111d;
+  --card:   #181423;
+  --gold:   #d4af37;
+  --goldl:  #e7c65a;
+  --text:   #ffffff;
+  --muted:  #9a93a8;
+  --red:    #e5484d;
+  --border: rgba(255,255,255,.07);
+  --r:      14px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.brand span { color: var(--muted); }
+
+nav { display: flex; gap: 4px; }
+
+nav button {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+nav button.active { background: var(--card); border-color: var(--border); color: var(--gold); }
+nav button:hover:not(.active) { color: var(--text); border-color: var(--border); }
+
+.header-actions { display: flex; gap: 8px; align-items: center; }
+
+.btn-backup {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.btn-backup:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── MAIN ── */
+main {
+  padding: 28px 28px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── SECTION HEADER ── */
+.sec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.sec-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── BUTTONS ── */
+.btn-primary {
+  background: linear-gradient(135deg, var(--goldl), var(--gold));
+  color: #1a1206;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity .2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-primary:hover { opacity: .88; }
+
+.btn-ghost {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.btn-ghost:hover { border-color: var(--muted); color: var(--text); }
+
+.btn-danger {
+  background: rgba(229,72,77,.1);
+  border: 1px solid rgba(229,72,77,.3);
+  color: var(--red);
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.btn-danger:hover { background: rgba(229,72,77,.2); }
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 6px;
+  font-size: 15px;
+  line-height: 1;
+  transition: all .2s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-icon:hover { color: var(--text); background: rgba(255,255,255,.07); }
+
+/* ── SUMMARY ── */
+.summary-bar {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.s-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 14px 20px;
+  min-width: 110px;
+}
+
+.s-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.s-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+}
+
+/* ── KANBAN ── */
+.kanban {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.k-col {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+  min-height: 440px;
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.k-col-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.k-col-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.k-count {
+  background: var(--card);
+  color: var(--gold);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.k-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.k-add {
+  margin-top: 12px;
+  width: 100%;
+  background: none;
+  border: 1px dashed var(--border);
+  color: var(--muted);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all .2s;
+}
+
+.k-add:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── CLIENT CARD ── */
+.c-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  cursor: pointer;
+  transition: all .18s;
+}
+
+.c-card:hover {
+  border-color: rgba(212,175,55,.35);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.35);
+}
+
+.c-name {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.c-company {
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.c-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(255,255,255,.04);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.tag.gold { background: rgba(212,175,55,.1); color: var(--gold); border-color: rgba(212,175,55,.2); }
+.tag.red  { background: rgba(229,72,77,.1);  color: var(--red);  border-color: rgba(229,72,77,.2); }
+
+/* ── TASKS ── */
+.t-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.f-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.f-btn.active { background: var(--card); border-color: var(--gold); color: var(--gold); }
+.f-btn:hover:not(.active) { border-color: var(--muted); color: var(--text); }
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 720px;
+}
+
+.t-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: border-color .2s;
+}
+
+.t-item:hover { border-color: rgba(255,255,255,.13); }
+.t-item.done { opacity: .45; }
+
+.t-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  font-size: 11px;
+  color: #1a1206;
+}
+
+.t-check:hover { border-color: var(--gold); }
+.t-item.done .t-check { background: var(--gold); border-color: var(--gold); }
+.t-check-mark { display: none; }
+.t-item.done .t-check-mark { display: block; }
+
+.t-body { flex: 1; min-width: 0; }
+
+.t-title {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.t-item.done .t-title { text-decoration: line-through; color: var(--muted); }
+
+.t-meta {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.t-client { font-size: 11px; color: var(--gold); }
+
+.t-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.t-date.ov { color: var(--red); }
+
+.prio-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.prio-dot.alta  { background: var(--red); }
+.prio-dot.media { background: var(--gold); }
+.prio-dot.baixa { background: var(--muted); }
+
+.t-actions { opacity: 0; transition: opacity .2s; }
+.t-item:hover .t-actions { opacity: 1; }
+
+/* ── MODAL ── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(5px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.overlay.hidden { display: none; }
+
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.modal-ttl { font-size: 16px; font-weight: 700; }
+
+.modal-x {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  padding: 4px;
+  transition: color .2s;
+}
+
+.modal-x:hover { color: var(--text); }
+
+.fg { margin-bottom: 16px; }
+
+.flabel {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+
+.finput, .fselect, .ftarea {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.finput:focus, .fselect:focus, .ftarea:focus { border-color: var(--gold); }
+.fselect option { background: var(--bg2); }
+.ftarea { resize: vertical; min-height: 80px; }
+
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  align-items: center;
+}
+
+.modal-actions .btn-danger { margin-right: auto; }
+
+/* ── EMPTY ── */
+.empty {
+  text-align: center;
+  padding: 28px 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+.hidden { display: none !important; }
+
+/* ── PENDÊNCIAS ── */
+.pend-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 700px) { .pend-grid { grid-template-columns: 1fr; } }
+
+.pend-section {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px;
+}
+
+.pend-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pend-section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pend-section-title.danger { color: var(--red); }
+.pend-section-title.today  { color: var(--gold); }
+
+.pend-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+}
+
+.pend-badge.danger { color: var(--red); border-color: rgba(229,72,77,.3); background: rgba(229,72,77,.08); }
+.pend-badge.today  { color: var(--gold); border-color: rgba(212,175,55,.3); background: rgba(212,175,55,.08); }
+
+.pend-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: opacity .15s;
+}
+
+.pend-row:last-child { border-bottom: none; padding-bottom: 0; }
+.pend-row:first-child { padding-top: 0; }
+.pend-row:hover { opacity: .75; }
+
+.pend-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #1a1206;
+  transition: all .2s;
+}
+
+.pend-check:hover { border-color: var(--gold); }
+
+.pend-body { flex: 1; min-width: 0; }
+
+.pend-task-title {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pend-meta {
+  display: flex;
+  gap: 8px;
+  margin-top: 3px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pend-client { font-size: 11px; color: var(--gold); }
+.pend-date   { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+.pend-date.danger { color: var(--red); }
+
+/* ── QUICK-ADD ── */
+.quick-add-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-width: 720px;
+}
+
+.quick-add-input {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 11px 16px;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.quick-add-input::placeholder { color: var(--muted); }
+.quick-add-input:focus { border-color: var(--gold); }
+
+/* ── CARD ARROWS ── */
+.c-card-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 10px;
+  opacity: 0;
+  transition: opacity .15s;
+}
+
+.c-card:hover .c-card-actions { opacity: 1; }
+
+.c-arrow {
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .15s;
+  line-height: 1.4;
+}
+
+.c-arrow:hover { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,.08); }
+.c-arrow:disabled { opacity: .2; cursor: default; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">GA BUSINESS INSIGHTS <span>· PAINEL</span></div>
+  <div class="header-actions">
+    <nav>
+      <button class="active" onclick="showPage('clientes',this)">CLIENTES</button>
+      <button onclick="showPage('tarefas',this)">TAREFAS</button>
+      <button id="nav-pend" onclick="showPage('pendencias',this)">PENDÊNCIAS</button>
+    </nav>
+    <button class="btn-backup" onclick="exportBackup()" title="Baixar backup JSON">↓ BACKUP</button>
+    <button class="btn-backup" onclick="document.getElementById('import-input').click()" title="Restaurar de backup">↑ IMPORTAR</button>
+    <input type="file" id="import-input" accept=".json" style="display:none" onchange="importBackup(event)">
+  </div>
+</header>
+
+<main>
+
+  <!-- ── PAGE: CLIENTES ── -->
+  <div id="page-clientes" class="page active">
+    <div class="sec-header">
+      <span class="sec-title">PIPELINE DE CLIENTES</span>
+      <button class="btn-primary" onclick="openClientModal()">+ Novo Cliente</button>
+    </div>
+    <div class="summary-bar" id="summary-bar"></div>
+    <div class="kanban" id="kanban"></div>
+  </div>
+
+  <!-- ── PAGE: PENDÊNCIAS ── -->
+  <div id="page-pendencias" class="page">
+    <div class="sec-header">
+      <span class="sec-title">PENDÊNCIAS</span>
+    </div>
+    <div class="pend-grid" id="pend-grid"></div>
+  </div>
+
+  <!-- ── PAGE: TAREFAS ── -->
+  <div id="page-tarefas" class="page">
+    <div class="sec-header">
+      <span class="sec-title">TAREFAS</span>
+      <button class="btn-primary" onclick="openTaskModal()">+ Nova Tarefa</button>
+    </div>
+    <div class="quick-add-bar">
+      <input class="quick-add-input" id="quick-task" placeholder="Nova tarefa — digite e pressione Enter…" onkeydown="quickAddTask(event)">
+    </div>
+    <div class="t-filters">
+      <button class="f-btn active" onclick="setFilter('todas',this)">TODAS</button>
+      <button class="f-btn" onclick="setFilter('pendentes',this)">PENDENTES</button>
+      <button class="f-btn" onclick="setFilter('hoje',this)">HOJE</button>
+      <button class="f-btn" onclick="setFilter('concluidas',this)">CONCLUÍDAS</button>
+    </div>
+    <div class="task-list" id="task-list"></div>
+  </div>
+
+</main>
+
+<!-- ── MODAL: CLIENTE ── -->
+<div class="overlay hidden" id="ov-client" onclick="closeModal('client',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <span class="modal-ttl" id="cm-title">Novo Cliente</span>
+      <button class="modal-x" onclick="closeModal('client')">✕</button>
+    </div>
+    <form onsubmit="saveClient(event)">
+      <div class="fg">
+        <label class="flabel">Nome *</label>
+        <input class="finput" id="c-name" placeholder="Nome do contato" required>
+      </div>
+      <div class="fg">
+        <label class="flabel">Empresa</label>
+        <input class="finput" id="c-company" placeholder="Nome da empresa">
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label class="flabel">Contato</label>
+          <input class="finput" id="c-contact" placeholder="WhatsApp / e-mail">
+        </div>
+        <div class="fg">
+          <label class="flabel">Etapa</label>
+          <select class="fselect" id="c-stage">
+            <option value="prospect">Prospect</option>
+            <option value="diagnostico">Diagnóstico</option>
+            <option value="proposta">Proposta</option>
+            <option value="execucao">Execução</option>
+            <option value="entregue">Entregue</option>
+          </select>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label class="flabel">Produto / Serviço</label>
+          <input class="finput" id="c-product" placeholder="ex: ERP Low Cost Stack 1">
+        </div>
+        <div class="fg">
+          <label class="flabel">Valor (R$)</label>
+          <input class="finput" id="c-value" type="number" min="0" placeholder="0">
+        </div>
+      </div>
+      <div class="fg">
+        <label class="flabel">Observações</label>
+        <textarea class="ftarea" id="c-notes" placeholder="Dores, contexto, próximos passos..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-danger hidden" id="c-del" onclick="deleteClient()">Excluir</button>
+        <button type="button" class="btn-ghost" onclick="closeModal('client')">Cancelar</button>
+        <button type="submit" class="btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── MODAL: TAREFA ── -->
+<div class="overlay hidden" id="ov-task" onclick="closeModal('task',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <span class="modal-ttl" id="tm-title">Nova Tarefa</span>
+      <button class="modal-x" onclick="closeModal('task')">✕</button>
+    </div>
+    <form onsubmit="saveTask(event)">
+      <div class="fg">
+        <label class="flabel">Tarefa *</label>
+        <input class="finput" id="t-title" placeholder="O que precisa ser feito?" required>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label class="flabel">Cliente</label>
+          <select class="fselect" id="t-client">
+            <option value="">— Sem cliente —</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="flabel">Prazo</label>
+          <input class="finput" id="t-due" type="date">
+        </div>
+      </div>
+      <div class="fg">
+        <label class="flabel">Prioridade</label>
+        <select class="fselect" id="t-priority">
+          <option value="media">Média</option>
+          <option value="alta">Alta</option>
+          <option value="baixa">Baixa</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label class="flabel">Notas</label>
+        <textarea class="ftarea" id="t-notes" placeholder="Contexto adicional..." style="min-height:60px"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-danger hidden" id="t-del" onclick="deleteTask()">Excluir</button>
+        <button type="button" class="btn-ghost" onclick="closeModal('task')">Cancelar</button>
+        <button type="submit" class="btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// ── CONSTANTS ───────────────────────────────────────────────────────────────
+
+const STAGES = [
+  { id: 'prospect',    label: 'Prospect'    },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'proposta',   label: 'Proposta'    },
+  { id: 'execucao',   label: 'Execução'    },
+  { id: 'entregue',   label: 'Entregue'    },
+];
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+
+let db = { clients: [], tasks: [] };
+let editCid = null;
+let editTid = null;
+let tFilter = 'todas';
+
+// ── PERSISTENCE ──────────────────────────────────────────────────────────────
+
+function dbLoad() {
+  try { db = JSON.parse(localStorage.getItem('ga_painel') || '{"clients":[],"tasks":[]}'); }
+  catch { db = { clients: [], tasks: [] }; }
+}
+
+function dbSave() {
+  localStorage.setItem('ga_painel', JSON.stringify(db));
+}
+
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────────────
+
+function render() {
+  renderSummary();
+  renderKanban();
+  renderTasks();
+  renderPendencias();
+  updatePendBadge();
+}
+
+function renderSummary() {
+  const total   = db.clients.length;
+  const exec    = db.clients.filter(c => c.stage === 'execucao').length;
+  const active  = db.clients.filter(c => c.stage !== 'entregue').length;
+  const pending = db.tasks.filter(t => !t.done).length;
+
+  document.getElementById('summary-bar').innerHTML = [
+    ['Clientes',        total  ],
+    ['Em Execução',     exec   ],
+    ['Pipeline Ativo',  active ],
+    ['Tarefas Abertas', pending],
+  ].map(([l, v]) => `
+    <div class="s-card">
+      <div class="s-label">${l}</div>
+      <div class="s-value">${v}</div>
+    </div>
+  `).join('');
+}
+
+function renderKanban() {
+  document.getElementById('kanban').innerHTML = STAGES.map(st => {
+    const cols = db.clients.filter(c => c.stage === st.id);
+    const cards = cols.length
+      ? cols.map(clientCard).join('')
+      : '<div class="empty">—</div>';
+    return `
+      <div class="k-col">
+        <div class="k-col-head">
+          <span class="k-col-title">${st.label}</span>
+          <span class="k-count">${cols.length}</span>
+        </div>
+        <div class="k-cards">${cards}</div>
+        <button class="k-add" onclick="openClientModal('${st.id}')">+ Adicionar</button>
+      </div>`;
+  }).join('');
+}
+
+function clientCard(c) {
+  const openTasks = db.tasks.filter(t => t.clientId === c.id && !t.done).length;
+  const tags = [
+    c.product ? `<span class="tag">${x(c.product)}</span>` : '',
+    c.value   ? `<span class="tag gold">R$ ${Number(c.value).toLocaleString('pt-BR')}</span>` : '',
+    openTasks > 0 ? `<span class="tag red">${openTasks} tarefa${openTasks > 1 ? 's' : ''}</span>` : '',
+  ].join('');
+  const si = STAGES.findIndex(s => s.id === c.stage);
+  const prevStage = si > 0 ? STAGES[si - 1].id : null;
+  const nextStage = si < STAGES.length - 1 ? STAGES[si + 1].id : null;
+  return `
+    <div class="c-card" onclick="openClientModal(null,'${c.id}')">
+      <div class="c-name">${x(c.name)}</div>
+      ${c.company ? `<div class="c-company">${x(c.company)}</div>` : ''}
+      ${tags ? `<div class="c-tags">${tags}</div>` : ''}
+      <div class="c-card-actions" onclick="event.stopPropagation()">
+        <button class="c-arrow" onclick="moveClient('${c.id}','${prevStage}')" ${!prevStage ? 'disabled' : ''} title="Etapa anterior">← voltar</button>
+        <button class="c-arrow" onclick="moveClient('${c.id}','${nextStage}')" ${!nextStage ? 'disabled' : ''} title="Próxima etapa">avançar →</button>
+      </div>
+    </div>`;
+}
+
+function renderTasks() {
+  const today = new Date().toISOString().slice(0, 10);
+  let tasks = [...db.tasks];
+
+  if (tFilter === 'pendentes')  tasks = tasks.filter(t => !t.done);
+  else if (tFilter === 'hoje')  tasks = tasks.filter(t => !t.done && t.due === today);
+  else if (tFilter === 'concluidas') tasks = tasks.filter(t => t.done);
+
+  tasks.sort((a, b) => {
+    if (a.done !== b.done) return a.done ? 1 : -1;
+    const p = { alta: 0, media: 1, baixa: 2 };
+    if (!a.done) {
+      const d = p[a.priority] - p[b.priority];
+      if (d !== 0) return d;
+    }
+    if (a.due && b.due) return a.due.localeCompare(b.due);
+    return a.due ? -1 : b.due ? 1 : 0;
+  });
+
+  const el = document.getElementById('task-list');
+  if (!tasks.length) {
+    el.innerHTML = '<div class="empty">Nenhuma tarefa aqui.</div>';
+    return;
+  }
+
+  el.innerHTML = tasks.map(t => {
+    const client = t.clientId ? db.clients.find(c => c.id === t.clientId) : null;
+    const ov = t.due && t.due < today && !t.done;
+    return `
+      <div class="t-item ${t.done ? 'done' : ''}">
+        <div class="t-check" onclick="toggleTask('${t.id}')">
+          <span class="t-check-mark">✓</span>
+        </div>
+        <div class="t-body">
+          <div class="t-title">${x(t.title)}</div>
+          <div class="t-meta">
+            ${client ? `<span class="t-client">${x(client.name)}</span>` : ''}
+            ${t.due ? `<span class="t-date ${ov ? 'ov' : ''}">${fmtDate(t.due)}${ov ? ' · atrasada' : ''}</span>` : ''}
+            <div class="prio-dot ${t.priority}"></div>
+          </div>
+        </div>
+        <div class="t-actions">
+          <button class="btn-icon" onclick="openTaskModal('${t.id}')" title="Editar">✎</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── CLIENT MODAL ─────────────────────────────────────────────────────────────
+
+function openClientModal(defaultStage, clientId) {
+  editCid = clientId || null;
+  if (clientId) {
+    const c = db.clients.find(x => x.id === clientId);
+    if (!c) return;
+    document.getElementById('cm-title').textContent = 'Editar Cliente';
+    document.getElementById('c-name').value    = c.name    || '';
+    document.getElementById('c-company').value = c.company || '';
+    document.getElementById('c-contact').value = c.contact || '';
+    document.getElementById('c-stage').value   = c.stage   || 'prospect';
+    document.getElementById('c-product').value = c.product || '';
+    document.getElementById('c-value').value   = c.value   || '';
+    document.getElementById('c-notes').value   = c.notes   || '';
+    document.getElementById('c-del').classList.remove('hidden');
+  } else {
+    document.getElementById('cm-title').textContent = 'Novo Cliente';
+    document.querySelector('#ov-client form').reset();
+    if (defaultStage) document.getElementById('c-stage').value = defaultStage;
+    document.getElementById('c-del').classList.add('hidden');
+  }
+  document.getElementById('ov-client').classList.remove('hidden');
+  setTimeout(() => document.getElementById('c-name').focus(), 60);
+}
+
+function saveClient(e) {
+  e.preventDefault();
+  const existing = editCid ? db.clients.find(c => c.id === editCid) : null;
+  const client = {
+    id:        editCid || uid(),
+    name:      document.getElementById('c-name').value.trim(),
+    company:   document.getElementById('c-company').value.trim(),
+    contact:   document.getElementById('c-contact').value.trim(),
+    stage:     document.getElementById('c-stage').value,
+    product:   document.getElementById('c-product').value.trim(),
+    value:     document.getElementById('c-value').value,
+    notes:     document.getElementById('c-notes').value.trim(),
+    createdAt: existing?.createdAt || new Date().toISOString(),
+  };
+  if (editCid) {
+    const i = db.clients.findIndex(c => c.id === editCid);
+    if (i !== -1) db.clients[i] = client;
+  } else {
+    db.clients.push(client);
+  }
+  dbSave();
+  closeModal('client');
+  render();
+}
+
+function deleteClient() {
+  if (!editCid || !confirm('Excluir este cliente?')) return;
+  db.clients = db.clients.filter(c => c.id !== editCid);
+  db.tasks.forEach(t => { if (t.clientId === editCid) t.clientId = null; });
+  dbSave();
+  closeModal('client');
+  render();
+}
+
+// ── TASK MODAL ───────────────────────────────────────────────────────────────
+
+function openTaskModal(taskId) {
+  editTid = taskId || null;
+
+  const sel = document.getElementById('t-client');
+  sel.innerHTML = '<option value="">— Sem cliente —</option>' +
+    db.clients.map(c =>
+      `<option value="${c.id}">${x(c.name)}${c.company ? ' · ' + x(c.company) : ''}</option>`
+    ).join('');
+
+  if (taskId) {
+    const t = db.tasks.find(x => x.id === taskId);
+    if (!t) return;
+    document.getElementById('tm-title').textContent  = 'Editar Tarefa';
+    document.getElementById('t-title').value    = t.title    || '';
+    document.getElementById('t-client').value   = t.clientId || '';
+    document.getElementById('t-due').value      = t.due      || '';
+    document.getElementById('t-priority').value = t.priority || 'media';
+    document.getElementById('t-notes').value    = t.notes    || '';
+    document.getElementById('t-del').classList.remove('hidden');
+  } else {
+    document.getElementById('tm-title').textContent = 'Nova Tarefa';
+    document.querySelector('#ov-task form').reset();
+    document.getElementById('t-due').value = new Date().toISOString().slice(0, 10);
+    document.getElementById('t-del').classList.add('hidden');
+  }
+  document.getElementById('ov-task').classList.remove('hidden');
+  setTimeout(() => document.getElementById('t-title').focus(), 60);
+}
+
+function saveTask(e) {
+  e.preventDefault();
+  const existing = editTid ? db.tasks.find(t => t.id === editTid) : null;
+  const task = {
+    id:        editTid || uid(),
+    title:     document.getElementById('t-title').value.trim(),
+    clientId:  document.getElementById('t-client').value || null,
+    due:       document.getElementById('t-due').value || null,
+    priority:  document.getElementById('t-priority').value,
+    notes:     document.getElementById('t-notes').value.trim(),
+    done:      existing?.done || false,
+    createdAt: existing?.createdAt || new Date().toISOString(),
+  };
+  if (editTid) {
+    const i = db.tasks.findIndex(t => t.id === editTid);
+    if (i !== -1) db.tasks[i] = task;
+  } else {
+    db.tasks.push(task);
+  }
+  dbSave();
+  closeModal('task');
+  render();
+}
+
+function deleteTask() {
+  if (!editTid || !confirm('Excluir esta tarefa?')) return;
+  db.tasks = db.tasks.filter(t => t.id !== editTid);
+  dbSave();
+  closeModal('task');
+  render();
+}
+
+function toggleTask(id) {
+  const t = db.tasks.find(t => t.id === id);
+  if (t) { t.done = !t.done; dbSave(); render(); }
+}
+
+function quickAddTask(e) {
+  if (e.key !== 'Enter') return;
+  const title = e.target.value.trim();
+  if (!title) return;
+  db.tasks.push({
+    id: uid(), title, clientId: null, due: null,
+    priority: 'media', notes: '', done: false,
+    createdAt: new Date().toISOString(),
+  });
+  dbSave();
+  e.target.value = '';
+  render();
+}
+
+function moveClient(id, stage) {
+  if (!stage) return;
+  const c = db.clients.find(c => c.id === id);
+  if (c) { c.stage = stage; dbSave(); render(); }
+}
+
+// ── NAVIGATION ───────────────────────────────────────────────────────────────
+
+function showPage(page, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  btn.classList.add('active');
+}
+
+function setFilter(f, btn) {
+  tFilter = f;
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTasks();
+}
+
+function closeModal(which, e) {
+  if (e && e.target !== document.getElementById('ov-' + which)) return;
+  document.getElementById('ov-' + which).classList.add('hidden');
+  if (which === 'client') editCid = null;
+  else editTid = null;
+}
+
+// ── UTILS ────────────────────────────────────────────────────────────────────
+
+function x(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function fmtDate(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+// ── KEYBOARD ─────────────────────────────────────────────────────────────────
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+    editCid = null; editTid = null;
+  }
+});
+
+// ── PENDÊNCIAS ───────────────────────────────────────────────────────────────
+
+function renderPendencias() {
+  const today = new Date().toISOString().slice(0, 10);
+  const week  = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
+
+  const pending = db.tasks.filter(t => !t.done);
+  const overdue = pending.filter(t => t.due && t.due < today)
+                         .sort((a, b) => a.due.localeCompare(b.due));
+  const dueToday = pending.filter(t => t.due === today);
+  const upcoming = pending.filter(t => t.due && t.due > today && t.due <= week)
+                          .sort((a, b) => a.due.localeCompare(b.due));
+  const noDue    = pending.filter(t => !t.due)
+                          .sort((a, b) => { const p = {alta:0,media:1,baixa:2}; return p[a.priority]-p[b.priority]; });
+
+  document.getElementById('pend-grid').innerHTML = [
+    pendSection('ATRASADAS',    overdue,  'danger'),
+    pendSection('HOJE',         dueToday, 'today'),
+    pendSection('PRÓXIMOS 7 DIAS', upcoming, ''),
+    pendSection('SEM PRAZO',    noDue,    ''),
+  ].join('');
+}
+
+function pendSection(title, tasks, variant) {
+  const rows = tasks.length
+    ? tasks.map(t => {
+        const client = t.clientId ? db.clients.find(c => c.id === t.clientId) : null;
+        const today  = new Date().toISOString().slice(0, 10);
+        const ov     = t.due && t.due < today;
+        return `
+          <div class="pend-row" onclick="openTaskModal('${t.id}')">
+            <div class="pend-check" onclick="event.stopPropagation();toggleTask('${t.id}')" title="Concluir"></div>
+            <div class="pend-body">
+              <div class="pend-task-title">${x(t.title)}</div>
+              <div class="pend-meta">
+                ${client ? `<span class="pend-client">${x(client.name)}</span>` : ''}
+                ${t.due  ? `<span class="pend-date ${ov ? 'danger' : ''}">${fmtDate(t.due)}</span>` : ''}
+                <div class="prio-dot ${t.priority}"></div>
+              </div>
+            </div>
+          </div>`;
+      }).join('')
+    : '<div class="empty" style="padding:16px 0 4px">Nenhuma</div>';
+
+  return `
+    <div class="pend-section">
+      <div class="pend-section-head">
+        <span class="pend-section-title ${variant}">${title}</span>
+        <span class="pend-badge ${variant}">${tasks.length}</span>
+      </div>
+      ${rows}
+    </div>`;
+}
+
+function updatePendBadge() {
+  const today   = new Date().toISOString().slice(0, 10);
+  const pending = db.tasks.filter(t => !t.done);
+  const urgent  = pending.filter(t => !t.due || t.due <= today).length;
+  const btn     = document.getElementById('nav-pend');
+  if (!btn) return;
+  btn.textContent = urgent > 0 ? `PENDÊNCIAS (${urgent})` : 'PENDÊNCIAS';
+  btn.style.color = urgent > 0 ? 'var(--red)' : '';
+}
+
+// ── BACKUP ───────────────────────────────────────────────────────────────────
+
+function exportBackup() {
+  const json = JSON.stringify(db, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const date = new Date().toISOString().slice(0,10);
+  a.href     = url;
+  a.download = `ga-painel-backup-${date}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importBackup(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const parsed = JSON.parse(ev.target.result);
+      if (!parsed.clients || !parsed.tasks) throw new Error('Formato inválido');
+      if (!confirm(`Importar ${parsed.clients.length} cliente(s) e ${parsed.tasks.length} tarefa(s)? Os dados atuais serão substituídos.`)) return;
+      db = parsed;
+      dbSave();
+      render();
+    } catch {
+      alert('Arquivo inválido. Use um backup gerado por este painel.');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+// ── BOOT ─────────────────────────────────────────────────────────────────────
+
+dbLoad();
+render();
+</script>
+</body>
+</html>

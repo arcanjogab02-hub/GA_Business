@@ -16,8 +16,7 @@ Usar IA para substituir esforço manual nos departamentos — começar pelo que 
 
 ## O que pode esperar
 
-- Estruturação formal de proposta comercial
-- Processos de atendimento e onboarding de cliente
+- Estruturação formal de proposta comercial (estrutura já existe na skill; falta a lógica de preço)
 - Expansão de canais além do Instagram
 
 ## Próximas prioridades derivadas do gargalo
@@ -32,6 +31,19 @@ Usar IA para substituir esforço manual nos departamentos — começar pelo que 
 - **Modelo de oferta:** personalização (bespoke por cliente). Não trabalha com pacotes prontos.
 - **Único produto "de prateleira":** Sistema de captação para corretores. O resto é sob medida.
 - **Funil da bio:** diagnóstico gratuito é o chamariz universal (porta de entrada pra qualquer empresa); corretor entra segmentado abaixo.
+
+## Processo de atendimento (padronizado)
+
+Atendimento ponta a ponta agora roda na skill `/fluxo-cliente` (captação → diagnóstico → entregável + stack → amostra grátis → proposta → execução → entrega → caso).
+
+**Funil de venda:**
+1. **Diagnóstico gratuito** — sempre em videochamada, conduzido com **SPIN Selling**. Roteiro vivo na skill `/diagnostico` (pra ler na segunda tela durante a call, adapta a próxima pergunta conforme o cliente responde).
+2. **Entregável grátis de amostra** — pequeno, com dado real do cliente, focado no ponto cego. Instiga curiosidade, mostra o estado desejado atendido e valida a oferta antes da proposta paga.
+3. **Proposta paga** → fechamento → execução → entrega → caso.
+
+**Especialistas técnicos (execução):** `/esp-bi` (carro-chefe), `/esp-sheets` (Stack 1), `/esp-supabase` (Stack 2 banco), `/esp-webapp` (front/site), `/esp-ia` (camada opcional), `/esp-seguranca` (portão de entrega).
+
+**Decisão de stack:** cliente com stack obrigatória manda. Senão: ≤5 usuários + dado em planilha → Stack 1; bateu 2+ sinais de login/volume/API/criticidade → Stack 2. BI é camada sobre a fonte — não existe BI sem dado.
 
 ## Infraestrutura
 
