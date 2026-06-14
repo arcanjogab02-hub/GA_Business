@@ -52,6 +52,12 @@ Atendimento ponta a ponta agora roda na skill `/fluxo-cliente` (captação → d
 - **Repo GitHub:** github.com/arcanjogab02-hub/GA_Business (verificar se está privado — contém `_memoria/`)
 - **Pendente:** trocar link da bio do Instagram para `ga-business.pages.dev`. Domínio próprio (`.com.br`, ~R$40/ano) adiado por opção de custo zero.
 
+## Clientes ativos
+
+- **Studio Donnamar** (Lucas R., via Workana — studio de beleza da esposa Marcely; cílios + sobrancelhas). ERP Low Cost Stack 1 (Sheets + Apps Script) **em produção desde 13/06/2026**, cliente lançando dados reais. Pasta em `clientes/Studio Donnamar/`.
+  - **Em aberto:** (1) trocar senhas padrão + ocultar `aux_Usuarios`; (2) handoff de propriedade pro cliente; (3) **fechar plano mensal** (proposta pronta: Essencial R$ 89 / Gestão R$ 149 com Analista de IA). Caminho: fechar mensal + handoff + troca de senha no mesmo movimento.
+  - Aprendizado comercial: escopo cresceu muito vs. o anúncio Workana (< R$ 260) → daqui pra frente, **precificar manutenção/evolução à parte** e não embutir novas telas no valor do projeto.
+
 ## Contexto com prazo
 
 Sem prazo definido por enquanto — ritmo ditado pela disponibilidade após o trabalho formal.
