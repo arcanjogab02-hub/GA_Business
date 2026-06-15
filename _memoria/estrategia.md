@@ -57,6 +57,10 @@ Atendimento ponta a ponta agora roda na skill `/fluxo-cliente` (captação → d
 - **Studio Donnamar** (Lucas R., via Workana — studio de beleza da esposa Marcely; cílios + sobrancelhas). ERP Low Cost Stack 1 (Sheets + Apps Script) **em produção desde 13/06/2026**, cliente lançando dados reais. Pasta em `clientes/Studio Donnamar/`.
   - **Em aberto:** (1) trocar senhas padrão + ocultar `aux_Usuarios`; (2) handoff de propriedade pro cliente; (3) **fechar plano mensal** (proposta pronta: Essencial R$ 89 / Gestão R$ 149 com Analista de IA). Caminho: fechar mensal + handoff + troca de senha no mesmo movimento.
   - Aprendizado comercial: escopo cresceu muito vs. o anúncio Workana (< R$ 260) → daqui pra frente, **precificar manutenção/evolução à parte** e não embutir novas telas no valor do projeto.
+- **Uno Prints** (gráfica, Palmas/TO — tio do fundador). Fluxo de caixa em Stack 1 (Sheets + Apps Script Web App), **construído e auditado (v1.6)**, com especialista financeiro por IA (Claude Sonnet). **Proposta enviada em 15/06/2026** — R$ 400 (impl.) + R$ 50/mês — aguardando aceite. Pasta em `clientes/Uno Prints/`.
+  - **Em aberto:** aceite → go-live (e-mails em `dim_Usuarios`, saldo-âncora, publicar v1.6, `ANTHROPIC_API_KEY`). Registrar como software de autoria (Lei 9.609/98) — cuidado TJTO.
+- **Uno Packs** (e-commerce de embalagens via Mercado Livre + Shopee, sociedade Fernando + Cris — mesma família). Caixa em Stack 1 simplificado, **construído e validado (45/45 testes)** — separa negócio/pessoal, por canal e por sócio. É **brinde** vinculado ao fechamento do Uno Prints. Pasta em `clientes/Uno Packs/`.
+  - **Em aberto:** montar a planilha-mãe no Sheets (`apps-script/MODELO_ABAS.md`) e implantar quando o Uno Prints fechar.
 
 ## Contexto com prazo
 
