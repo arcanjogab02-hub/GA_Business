@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>GA · Sistema de RH completo, escalável e seguro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0a12;--card:#181423;--gold:#d4af37;--gold-soft:#e7c65a;
+    --text:#fff;--muted:#9a93a8;--line:rgba(255,255,255,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  @page{size:A4;margin:0}
+  html,body{background:var(--bg)}
+  body{
+    font-family:'Inter',system-ui,sans-serif;color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .page{
+    width:210mm;min-height:297mm;padding:22mm 20mm 16mm;position:relative;
+    background:var(--bg);overflow:hidden;page-break-after:always;
+  }
+  .page:last-child{page-break-after:auto}
+  .page::before{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 80% 38% at 50% 0%,#000 18%,transparent 100%);
+            mask-image:radial-gradient(ellipse 80% 38% at 50% 0%,#000 18%,transparent 100%);
+    pointer-events:none;
+  }
+  .inner{position:relative;z-index:1}
+
+  .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:50px}
+  .head img{height:34px;width:auto}
+  .head .tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.5px;color:var(--muted);text-transform:uppercase}
+
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:18px}
+  h1{font-size:32px;font-weight:900;letter-spacing:-.8px;line-height:1.13;margin-bottom:16px;max-width:16em}
+  h1 .g{color:var(--gold)}
+  .sub{color:var(--muted);font-size:14px;line-height:1.6;max-width:33em}
+  .sub b{color:var(--text);font-weight:600}
+
+  .rule{height:1px;background:var(--line);margin:42px 0}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin-bottom:28px}
+
+  /* arquitetura — clean labeled rows */
+  .arch{display:flex;flex-direction:column;gap:22px}
+  .arch .row{display:grid;grid-template-columns:130px 1fr;gap:22px;align-items:baseline}
+  .arch .k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;padding-top:2px}
+  .arch .v{font-size:15px;line-height:1.5;color:#ece9f2}
+  .arch .v b{color:#fff;font-weight:700}
+
+  .note{margin-top:38px;font-size:13px;line-height:1.6;color:var(--muted)}
+  .note b{color:var(--gold-soft)}
+
+  /* roadmap — minimal numbered */
+  .road{display:flex;flex-direction:column;gap:24px}
+  .road .et{display:grid;grid-template-columns:120px 1fr auto;gap:20px;align-items:baseline}
+  .road .en{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;padding-top:4px}
+  .road .et.two .en,.road .et.three .en,.road .et.four .en{color:var(--muted)}
+  .road .eb h4{font-size:16px;font-weight:800;margin-bottom:6px}
+  .road .eb p{font-size:12.5px;line-height:1.55;color:#cfcad9}
+  .road .ep{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap;text-align:right;padding-top:4px}
+
+  /* proof */
+  .proof{font-size:15px;line-height:1.65;color:#ece9f2;max-width:34em}
+  .proof b{color:#fff;font-weight:700}
+  .proof .hl{color:var(--gold-soft);font-weight:700}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+  .chip{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.5px;color:#d9d5e2;
+    border:1px solid var(--line);border-radius:999px;padding:7px 14px;background:rgba(255,255,255,.02)}
+  .chip b{color:var(--gold)}
+
+  .signoff{margin-top:46px;display:flex;justify-content:space-between;align-items:flex-end}
+  .signoff .q{font-size:15px;font-weight:700;line-height:1.5;max-width:24em;color:#fff}
+  .signoff .q b{color:var(--gold)}
+  .signoff .wm{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--gold);text-align:right;line-height:1.9}
+  .signoff .wm span{color:var(--muted);font-size:9px;letter-spacing:1.5px}
+
+  footer{position:absolute;left:20mm;right:20mm;bottom:11mm;display:flex;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);
+    border-top:1px solid var(--line);padding-top:9px;z-index:1}
+</style>
+</head>
+<body>
+
+<!-- ===================== PAGE 1 — PROBLEMA + ARQUITETURA ===================== -->
+<section class="page">
+  <div class="inner">
+    <div class="head">
+      <img src="logo_ga.png" alt="GA Business Insights">
+      <div class="tag">Proposta · Desenho da solução</div>
+    </div>
+
+    <div class="kicker">Sistema de RH · ~1.000 colaboradores</div>
+    <h1>Os processos de RH em <span class="g">uma plataforma só</span> — segura, escalável e sua.</h1>
+    <p class="sub">Hoje o RH roda <b>manual e fragmentado</b>, espalhado em planilhas e sistemas que não conversam. A proposta centraliza tudo num sistema web responsivo, com <b>banco robusto, acesso por perfis e código-fonte entregue</b> — pronto pra escalar.</p>
+
+    <div class="rule"></div>
+    <div class="eyebrow">A arquitetura proposta</div>
+
+    <div class="arch">
+      <div class="row">
+        <div class="k">Banco</div>
+        <div class="v"><b>PostgreSQL gerenciado</b> — robusto e seguro, com isolamento de acesso por perfil direto na base (RLS).</div>
+      </div>
+      <div class="row">
+        <div class="k">API</div>
+        <div class="v"><b>REST + autenticação + perfis e permissões</b> (RBAC), já preparada pra integrar folha, ponto e ERP.</div>
+      </div>
+      <div class="row">
+        <div class="k">Front</div>
+        <div class="v"><b>Web responsivo</b> (desktop e mobile), incluindo o <b>portal do colaborador</b> para autoatendimento.</div>
+      </div>
+      <div class="row">
+        <div class="k">Escala</div>
+        <div class="v">Infraestrutura <b>serverless gerenciada</b>, dimensionada para <b>1.000+ usuários simultâneos</b>.</div>
+      </div>
+      <div class="row">
+        <div class="k">Segurança</div>
+        <div class="v">Camada transversal: <b>controle de acesso, criptografia, trilha de auditoria e conformidade LGPD</b> em todos os módulos.</div>
+      </div>
+    </div>
+
+    <p class="note">Entrega inclui <b>documentação técnica e código-fonte</b> — a plataforma é da empresa, sem dependência de fornecedor.</p>
+  </div>
+  <footer><span>GA Business Insights · Proposta técnica</span><span>01 / 02</span></footer>
+</section>
+
+<!-- ===================== PAGE 2 — ROADMAP + PROVA ===================== -->
+<section class="page">
+  <div class="inner">
+    <div class="head">
+      <img src="logo_ga.png" alt="GA Business Insights">
+      <div class="tag">Proposta · Desenho da solução</div>
+    </div>
+
+    <div class="eyebrow">Entrega em módulos — ágil, por etapas</div>
+    <div class="road">
+      <div class="et one">
+        <div class="en">Etapa 1 · Fundação</div>
+        <div class="eb"><h4>Acesso, perfis e cadastro</h4><p>Autenticação, controle por perfis e permissões, cadastro e gestão de colaboradores (dados, cargo, departamento, histórico) e o portal do colaborador. A base segura sobre a qual tudo cresce.</p></div>
+        <div class="ep">prazo<br>fechado</div>
+      </div>
+      <div class="et two">
+        <div class="en">Etapa 2 · Jornada</div>
+        <div class="eb"><h4>Ponto, férias e ausências</h4><p>Controle de ponto e banco de horas, escalas e justificativas; férias e ausências no ciclo solicitação → aprovação → calendário.</p></div>
+        <div class="ep">estimado</div>
+      </div>
+      <div class="et three">
+        <div class="en">Etapa 3 · Pessoas</div>
+        <div class="eb"><h4>Benefícios, desempenho e seleção</h4><p>Gestão de benefícios, avaliação de desempenho e metas, recrutamento e seleção (banco de vagas e candidatos), onboarding e offboarding.</p></div>
+        <div class="ep">estimado</div>
+      </div>
+      <div class="et four">
+        <div class="en">Etapa 4 · Inteligência</div>
+        <div class="eb"><h4>Indicadores e integrações</h4><p>Dashboard de RH (turnover, headcount, absenteísmo) e integrações via API com folha, ponto e ERP existentes.</p></div>
+        <div class="ep">estimado</div>
+      </div>
+    </div>
+
+    <div class="rule"></div>
+    <div class="eyebrow">Por que a GA</div>
+    <p class="proof">
+      Desenvolvi o <span class="hl">Salus</span>, um sistema de <b>IA em ambiente institucional (Tribunal de Justiça do Tocantins)</b>: rodando <b>24/7 em infraestrutura serverless</b>, com escala automática, integração de API, controle de acesso e <b>conformidade LGPD</b> — região Brasil. Some a isso sistemas de gestão sob medida que já entreguei, com <b>perfis e permissões, dashboards de indicadores e código-fonte nas mãos do cliente</b>.
+    </p>
+    <div class="chips">
+      <span class="chip"><b>›</b> Escala serverless · 1.000+ usuários</span>
+      <span class="chip"><b>›</b> Banco seguro · RLS por perfil</span>
+      <span class="chip"><b>›</b> Integração via API</span>
+      <span class="chip"><b>›</b> LGPD · região Brasil</span>
+      <span class="chip"><b>›</b> Entregas ágeis por etapa</span>
+    </div>
+
+    <div class="signoff">
+      <div class="q">Sugiro começar pela <b>Etapa 1 fechada</b> — você valida a fundação com risco baixo antes de seguir.</div>
+      <div class="wm">GA BUSINESS INSIGHTS<span>IA · BI · Sistemas de gestão</span></div>
+    </div>
+  </div>
+  <footer><span>GA Business Insights · Proposta técnica</span><span>02 / 02</span></footer>
+</section>
+
+</body>
+</html>

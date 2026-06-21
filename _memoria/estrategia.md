@@ -62,6 +62,10 @@ Atendimento ponta a ponta agora roda na skill `/fluxo-cliente` (captação → d
 - **Uno Packs** (e-commerce de embalagens via Mercado Livre + Shopee, sociedade Fernando + Cris — mesma família). Caixa em Stack 1 simplificado, **construído e validado (45/45 testes)** — separa negócio/pessoal, por canal e por sócio. É **brinde** vinculado ao fechamento do Uno Prints. Pasta em `clientes/Uno Packs/`.
   - **Em aberto:** montar a planilha-mãe no Sheets (`apps-script/MODELO_ABAS.md`) e implantar quando o Uno Prints fechar.
 
+## Projetos internos (P&D → candidatos a produto)
+
+- **Treino-Tracker** (cliente interno `GA Interno`). Web App de musculação em Stack 1 (Apps Script + Google Sheets), v1.4 — registro rápido no celular + análise no desktop, técnicas avançadas, progressão de carga, e pacote de UX baseado em pesquisa dos apps líderes (histórico clicável, carrinho à prova de reload, editar série, repetir última sessão, setas de progresso, cronômetro de descanso). **Uso pessoal por ~semanas + teste com 2 amigos → decidir comercialização** (alvo: personal trainers). Deploy manual pendente. Modelo de distribuição cogitado: uma planilha dedicada por pessoa. Pasta em `clientes/GA Interno/projetos/Treino-Tracker/`.
+
 ## Contexto com prazo
 
 Sem prazo definido por enquanto — ritmo ditado pela disponibilidade após o trabalho formal.

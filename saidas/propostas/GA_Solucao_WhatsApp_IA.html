@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>GA · Automação de Atendimento no WhatsApp com IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0a12;--card:#181423;--gold:#d4af37;--gold-soft:#e7c65a;
+    --text:#fff;--muted:#9a93a8;--line:rgba(255,255,255,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  @page{size:A4;margin:0}
+  html,body{background:var(--bg)}
+  body{
+    font-family:'Inter',system-ui,sans-serif;color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .page{
+    width:210mm;min-height:297mm;padding:22mm 20mm 16mm;position:relative;
+    background:var(--bg);overflow:hidden;page-break-after:always;
+  }
+  .page:last-child{page-break-after:auto}
+  .page::before{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 80% 38% at 50% 0%,#000 18%,transparent 100%);
+            mask-image:radial-gradient(ellipse 80% 38% at 50% 0%,#000 18%,transparent 100%);
+    pointer-events:none;
+  }
+  .inner{position:relative;z-index:1}
+
+  .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:54px}
+  .head img{height:34px;width:auto}
+  .head .tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.5px;color:var(--muted);text-transform:uppercase}
+
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:18px}
+  h1{font-size:33px;font-weight:900;letter-spacing:-.8px;line-height:1.12;margin-bottom:16px;max-width:15em}
+  h1 .g{color:var(--gold)}
+  .sub{color:var(--muted);font-size:14px;line-height:1.6;max-width:30em}
+  .sub b{color:var(--text);font-weight:600}
+
+  .rule{height:1px;background:var(--line);margin:46px 0}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin-bottom:30px}
+
+  /* SPIN — clean vertical list, no boxes */
+  .spin{display:flex;flex-direction:column;gap:26px}
+  .spin .row{display:grid;grid-template-columns:148px 1fr;gap:22px;align-items:baseline}
+  .spin .k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;padding-top:3px}
+  .spin .k span{display:block;color:var(--muted);font-size:9px;letter-spacing:1.5px;margin-top:5px}
+  .spin .v{font-size:17px;line-height:1.5;font-weight:500;color:#ece9f2}
+  .spin .v b{color:#fff;font-weight:700}
+
+  .closer{margin-top:50px;font-size:18px;line-height:1.5;font-weight:600;color:#fff}
+  .closer b{color:var(--gold)}
+
+  /* page 2 */
+  .proof{font-size:17px;line-height:1.6;color:#ece9f2;max-width:33em}
+  .proof b{color:#fff;font-weight:700}
+  .proof .hl{color:var(--gold-soft);font-weight:700}
+
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .chip{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.5px;color:#d9d5e2;
+    border:1px solid var(--line);border-radius:999px;padding:8px 15px;background:rgba(255,255,255,.02)}
+  .chip b{color:var(--gold)}
+
+  /* flow — single clean line */
+  .flow{display:flex;align-items:center;gap:14px;margin-top:8px}
+  .node{flex:1;text-align:center}
+  .node .nt{font-size:14px;font-weight:800;line-height:1.2;margin-bottom:6px}
+  .node .nd{font-size:10.5px;color:var(--muted);line-height:1.4}
+  .sep{color:var(--gold);font-size:17px;font-weight:700;flex:0 0 auto}
+  .flow-note{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;text-align:center;margin-top:22px}
+  .flow-note b{color:var(--gold)}
+
+  /* etapas — minimal */
+  .etapas{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:6px}
+  .et .en{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .et h4{font-size:17px;font-weight:800;margin-bottom:10px}
+  .et p{font-size:13px;line-height:1.6;color:#cfcad9}
+  .et p b{color:var(--gold-soft)}
+  .et.two .en{color:var(--muted)}
+
+  .signoff{margin-top:54px;display:flex;justify-content:space-between;align-items:flex-end}
+  .signoff .q{font-size:16px;font-weight:700;line-height:1.45;max-width:22em}
+  .signoff .q b{color:var(--gold)}
+  .signoff .wm{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--gold);text-align:right;line-height:1.8}
+  .signoff .wm span{color:var(--muted);font-size:9px;letter-spacing:1.5px}
+
+  footer{position:absolute;left:20mm;right:20mm;bottom:11mm;display:flex;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);
+    border-top:1px solid var(--line);padding-top:9px;z-index:1}
+</style>
+</head>
+<body>
+
+<!-- ===================== PAGE 1 — SPIN ===================== -->
+<section class="page">
+  <div class="inner">
+    <div class="head">
+      <img src="logo_ga.png" alt="GA Business Insights">
+      <div class="tag">Proposta · Desenho da solução</div>
+    </div>
+
+    <div class="kicker">Atendimento no WhatsApp com IA</div>
+    <h1>Seu WhatsApp respondendo na hora — com a <span class="g">informação certa</span>, 24/7.</h1>
+    <p class="sub">Integração com a API do WhatsApp Business · respostas em texto e mídia · IA que entende a pergunta e responde com base no <b>seu</b> conteúdo.</p>
+
+    <div class="rule"></div>
+    <div class="eyebrow">O raciocínio</div>
+
+    <div class="spin">
+      <div class="row">
+        <div class="k">Situação<span>onde você está</span></div>
+        <div class="v">Hoje cada dúvida que chega no WhatsApp é respondida na mão, uma a uma.</div>
+      </div>
+      <div class="row">
+        <div class="k">Problema<span>o que trava</span></div>
+        <div class="v">As perguntas se repetem, fora do horário ninguém responde, e a resposta muda conforme quem atende.</div>
+      </div>
+      <div class="row">
+        <div class="k">Implicação<span>o que custa</span></div>
+        <div class="v">O cliente espera, parte desiste, e o atendimento <b>não escala sem contratar mais gente</b>.</div>
+      </div>
+      <div class="row">
+        <div class="k">Necessidade<span>o que resolve</span></div>
+        <div class="v">Um assistente que responde sozinho, na hora, com a informação certa da sua base — e que <b>escala sem aumentar a equipe</b>.</div>
+      </div>
+    </div>
+
+    <p class="closer">É exatamente o tipo de sistema que eu já <b>construí e coloquei no ar</b>.</p>
+  </div>
+  <footer><span>GA Business Insights · IA aplicada · BI · Sistemas</span><span>01 / 02</span></footer>
+</section>
+
+<!-- ===================== PAGE 2 — PROVA + COMO + ENTREGA ===================== -->
+<section class="page">
+  <div class="inner">
+    <div class="head">
+      <img src="logo_ga.png" alt="GA Business Insights">
+      <div class="tag">Proposta · Desenho da solução</div>
+    </div>
+
+    <div class="eyebrow">A prova — projeto Salus</div>
+    <p class="proof">
+      Desenvolvi o <span class="hl">Salus</span>, um assistente de <b>IA generativa</b> para o <b>Tribunal de Justiça do Tocantins (TJTO)</b>: responde dúvidas dos servidores <b>ancorado nos documentos oficiais</b> e citando a fonte — <b>no ar 24/7</b>. Não é chatbot de resposta pronta: é IA que entende a pergunta e busca a resposta certa na base.
+    </p>
+    <div class="chips">
+      <span class="chip"><b>›</b> IA generativa (Gemini / Vertex)</span>
+      <span class="chip"><b>›</b> RAG + citação da fonte</span>
+      <span class="chip"><b>›</b> Cloud Run · serverless · escala automática</span>
+      <span class="chip"><b>›</b> São Paulo · LGPD</span>
+      <span class="chip"><b>›</b> Resiliente · retry + cache</span>
+    </div>
+
+    <div class="rule"></div>
+    <div class="eyebrow">Como fica no seu WhatsApp</div>
+    <div class="flow">
+      <div class="node"><div class="nt">Mensagem chega</div><div class="nd">cliente escreve no WhatsApp</div></div>
+      <div class="sep">→</div>
+      <div class="node"><div class="nt">IA entende</div><div class="nd">palavra-chave ou fluxo de conversa</div></div>
+      <div class="sep">→</div>
+      <div class="node"><div class="nt">Busca na sua base</div><div class="nd">RAG sobre o seu conteúdo</div></div>
+      <div class="sep">→</div>
+      <div class="node"><div class="nt">Responde na hora</div><div class="nd">texto ou mídia, automático</div></div>
+    </div>
+    <p class="flow-note">tudo sobre a <b>API oficial do WhatsApp Business</b> — robusto e escalável por construção</p>
+
+    <div class="rule"></div>
+    <div class="eyebrow">Entrega em duas etapas</div>
+    <div class="etapas">
+      <div class="et">
+        <div class="en">Etapa 1 · Núcleo</div>
+        <h4>IA respondendo no WhatsApp</h4>
+        <p>Integração com a API do WhatsApp Business, IA ancorada na sua base respondendo em <b>texto e mídia</b>, e os fluxos principais de conversa. Já entra atendendo.</p>
+      </div>
+      <div class="et two">
+        <div class="en">Etapa 2 · Escala</div>
+        <h4>Refino e métricas</h4>
+        <p>Ajuste fino dos fluxos com base nas conversas reais, <b>relatórios de atendimento</b> e otimização de performance e custo conforme o volume cresce.</p>
+      </div>
+    </div>
+
+    <div class="signoff">
+      <div class="q">Quer ver o <b>Salus funcionando</b> antes de decidir? Posso te mostrar por aqui mesmo.</div>
+      <div class="wm">GA BUSINESS INSIGHTS<span>IA · BI · Sistemas · Palmas/TO</span></div>
+    </div>
+  </div>
+  <footer><span>GA Business Insights · IA aplicada · BI · Sistemas</span><span>02 / 02</span></footer>
+</section>
+
+</body>
+</html>

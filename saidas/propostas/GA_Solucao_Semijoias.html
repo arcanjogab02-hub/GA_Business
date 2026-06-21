@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>GA · Desenho de Solução — Automação Financeira & Gestão de Vendas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0a12;--card:#181423;--card2:#14111d;--gold:#d4af37;--gold-soft:#e7c65a;
+    --red:#e5484d;--green:#3fb950;--text:#fff;--muted:#9a93a8;--line:rgba(255,255,255,.09);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  @page{size:A4;margin:0}
+  html,body{background:var(--bg)}
+  body{
+    font-family:'Inter',system-ui,sans-serif;color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .page{
+    width:210mm;min-height:297mm;padding:16mm 15mm 14mm;position:relative;
+    background:var(--bg);overflow:hidden;page-break-after:always;
+  }
+  .page:last-child{page-break-after:auto}
+  .page::before{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:54px 54px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 45% at 50% 0%,#000 25%,transparent 100%);
+            mask-image:radial-gradient(ellipse 90% 45% at 50% 0%,#000 25%,transparent 100%);
+    pointer-events:none;
+  }
+  .inner{position:relative;z-index:1}
+
+  /* header */
+  .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px}
+  .head img{height:38px;width:auto}
+  .head .tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;text-align:right;line-height:1.7}
+  .head .tag b{color:var(--muted);font-weight:400;display:block;letter-spacing:2px}
+
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+  h1{font-size:27px;font-weight:900;letter-spacing:-.6px;line-height:1.12;margin-bottom:10px}
+  h1 .g{color:var(--gold)}
+  .sub{color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:4px}
+  .sub b{color:var(--text);font-weight:600}
+
+  .sect{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin:26px 0 13px;display:flex;align-items:center;gap:10px}
+  .sect::after{content:"";height:1px;flex:1;background:var(--line)}
+
+  .lead{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:16px 18px;font-size:13.5px;line-height:1.55;color:#e9e6f0}
+  .lead b{color:var(--gold-soft)}
+
+  /* flow */
+  .flow{display:flex;align-items:stretch;gap:0;margin-top:4px}
+  .step{flex:1;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 11px;text-align:center;position:relative}
+  .step .num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:1px}
+  .step .st{font-size:12.5px;font-weight:800;margin:6px 0 5px;line-height:1.15}
+  .step .sd{font-size:10px;color:var(--muted);line-height:1.35}
+  .arrow{display:flex;align-items:center;justify-content:center;width:18px;color:var(--gold);font-size:15px;font-weight:700;flex:0 0 18px}
+
+  /* modules table */
+  .mods{display:flex;flex-direction:column;gap:10px}
+  .mod{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--card);border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  .mod .need{padding:13px 15px;border-right:1px solid var(--line)}
+  .mod .sol{padding:13px 15px;background:rgba(212,175,55,.05)}
+  .mod .lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .mod .sol .lbl{color:var(--gold)}
+  .mod .txt{font-size:12px;line-height:1.45}
+  .mod .txt b{font-weight:700}
+
+  /* two-col lists */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 17px}
+  .panel h3{font-size:13px;font-weight:800;margin-bottom:11px;display:flex;align-items:center;gap:8px}
+  .panel h3 .d{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+  .panel ul{list-style:none}
+  .panel li{font-size:11.5px;line-height:1.4;color:#d9d5e2;padding:5px 0 5px 16px;position:relative;border-bottom:1px solid rgba(255,255,255,.04)}
+  .panel li:last-child{border-bottom:none}
+  .panel li::before{content:"›";position:absolute;left:2px;color:var(--gold);font-weight:700}
+
+  /* phases */
+  .phases{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px}
+  .phase{border-radius:12px;padding:16px 17px}
+  .phase.mvp{background:linear-gradient(160deg,rgba(212,175,55,.12),rgba(212,175,55,.03));border:1px solid rgba(212,175,55,.35)}
+  .phase.full{background:var(--card);border:1px solid var(--line)}
+  .phase .pt{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+  .phase.mvp .pt{color:var(--gold)}.phase.full .pt{color:var(--muted)}
+  .phase h4{font-size:15px;font-weight:800;margin-bottom:9px}
+  .phase p{font-size:11.5px;line-height:1.5;color:#d9d5e2}
+  .phase p b{color:var(--gold-soft)}
+
+  /* differentiator + cta */
+  .diff{margin-top:22px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:17px 19px;display:flex;gap:22px;align-items:center}
+  .diff .big{font-size:30px;font-weight:900;color:var(--gold);line-height:1;letter-spacing:-1px;white-space:nowrap}
+  .diff .big small{display:block;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.5px;margin-top:5px}
+  .diff .dt{font-size:12.5px;line-height:1.55;color:#e9e6f0}
+  .diff .dt b{color:var(--gold-soft)}
+
+  .cta{margin-top:16px;background:linear-gradient(135deg,var(--gold-soft),var(--gold));border-radius:12px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;color:#1a1206}
+  .cta .ct{font-size:13.5px;font-weight:800;line-height:1.35}
+  .cta .ct small{display:block;font-weight:600;font-size:11px;opacity:.8;margin-top:3px}
+  .cta .link{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-align:right;line-height:1.7}
+
+  footer{position:absolute;left:15mm;right:15mm;bottom:9mm;display:flex;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);
+    border-top:1px solid var(--line);padding-top:8px;z-index:1}
+</style>
+</head>
+<body>
+
+<!-- ===================== PAGE 1 ===================== -->
+<section class="page">
+  <div class="inner">
+    <div class="head">
+      <img src="logo_ga.png" alt="GA Business Insights">
+      <div class="tag">Desenho de Solução<b>Proposta técnica · resumo</b></div>
+    </div>
+
+    <div class="kicker">Consignação de semijoias · ~400 consultoras</div>
+    <h1>Automação financeira e <span class="g">gestão de vendas</span>,<br>sem planilha solta e sem achismo.</h1>
+    <p class="sub">Consolidação automática de Excel · pendências · painel de BI · alertas no WhatsApp.</p>
+
+    <div class="sect">O problema, como ele é hoje</div>
+    <div class="lead">
+      Vendas e pagamentos chegam em <b>dezenas de planilhas Excel</b> das líderes, em momentos diferentes. Consolidar na mão é lento e abre brecha pra erro — e o que mais importa fica escondido: <b>quem está em atraso, quem parou de vender e quanto cada líder realmente fatura.</b> A operação cresce, mas a visão não acompanha.
+    </div>
+
+    <div class="sect">O fluxo da solução</div>
+    <div class="flow">
+      <div class="step"><div class="num">01</div><div class="st">Entrada</div><div class="sd">Líder sobe a planilha de fechamento num modelo padrão</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="num">02</div><div class="st">Consolidação</div><div class="sd">Sistema unifica vendas + pagamentos numa base única, valida e deduplica</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="num">03</div><div class="st">Motor de regras</div><div class="sd">Detecta atrasos, inatividade e quedas automaticamente</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="num">04</div><div class="st">Painel BI</div><div class="sd">Faturamento, ativas, comissões e ranking em tempo real</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="num">05</div><div class="st">WhatsApp</div><div class="sd">Dispara os alertas certos pra pessoa certa</div></div>
+    </div>
+
+    <div class="sect">O que você pediu × o que a solução entrega</div>
+    <div class="mods">
+      <div class="mod">
+        <div class="need"><div class="lbl">Necessidade</div><div class="txt">Consolidar vendas e pagamentos de várias planilhas Excel das líderes</div></div>
+        <div class="sol"><div class="lbl">Solução</div><div class="txt"><b>Importador automático</b>: lê cada Excel no modelo padrão e monta uma base única, sem digitação manual</div></div>
+      </div>
+      <div class="mod">
+        <div class="need"><div class="lbl">Necessidade</div><div class="txt">Identificar pagamentos em atraso e consultoras sem fechamento</div></div>
+        <div class="sol"><div class="lbl">Solução</div><div class="txt"><b>Motor de pendências</b>: cruza o esperado × o lançado e marca quem ficou de fora, sozinho</div></div>
+      </div>
+      <div class="mod">
+        <div class="need"><div class="lbl">Necessidade</div><div class="txt">Relatórios e dashboards de métricas financeiras e de desempenho</div></div>
+        <div class="sol"><div class="lbl">Solução</div><div class="txt"><b>Painel de BI</b>: faturamento total e por líder, ativas, comissões e ranking — visual e filtrável</div></div>
+      </div>
+      <div class="mod">
+        <div class="need"><div class="lbl">Necessidade</div><div class="txt">Alertas e notificações automáticas via WhatsApp</div></div>
+        <div class="sol"><div class="lbl">Solução</div><div class="txt"><b>Camada de disparo</b>: regra dispara a mensagem certa (líder, consultora) via API, sem ninguém apertar botão</div></div>
+      </div>
+    </div>
+  </div>
+  <footer><span>GA Business Insights · BI · Dados · Decisão</span><span>Proposta técnica · 01 / 02</span></footer>
+</section>
+
+<!-- ===================== PAGE 2 ===================== -->
+<section class="page">
+  <div class="inner">
+    <div class="head">
+      <img src="logo_ga.png" alt="GA Business Insights">
+      <div class="tag">Desenho de Solução<b>Alertas · métricas · entrega</b></div>
+    </div>
+
+    <div class="sect">O que o sistema avisa sozinho</div>
+    <div class="cols">
+      <div class="panel">
+        <h3><span class="d"></span>Alertas automáticos</h3>
+        <ul>
+          <li>Líder que esqueceu de enviar o fechamento mensal</li>
+          <li>Consultora com pagamento pendente</li>
+          <li>Consultora sem movimentação de vendas há 30 dias</li>
+          <li>Líder com queda na captação de novas consultoras</li>
+          <li>Ranking mensal de desempenho — líderes e consultoras</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3><span class="d"></span>Métricas no painel</h3>
+        <ul>
+          <li>Faturamento total da empresa</li>
+          <li>Faturamento detalhado por líder</li>
+          <li>Número de consultoras ativas</li>
+          <li>Consultoras sem vendas no período</li>
+          <li>Consultoras com pagamento em atraso</li>
+          <li>Estimativa de comissão — líderes e consultoras</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sect">Entrega em duas etapas</div>
+    <div class="phases">
+      <div class="phase mvp">
+        <div class="pt">Etapa 1 · Núcleo funcional</div>
+        <h4>Consolidação + Painel</h4>
+        <p>O importador de Excel, a base única consolidada, o motor de pendências (atraso e inatividade) e o painel de BI com as métricas principais. <b>Já entrega a visão que hoje não existe</b> — você passa a enxergar faturamento, ativas e atrasos sem montar nada na mão.</p>
+      </div>
+      <div class="phase full">
+        <div class="pt">Etapa 2 · Automação completa</div>
+        <h4>Alertas + WhatsApp</h4>
+        <p>Camada de disparo via API do WhatsApp com todos os alertas (fechamento, pendência, inatividade, queda de captação) e o ranking automático. <b>Fecha o ciclo</b>: o sistema não só mostra — ele avisa a pessoa certa, na hora certa.</p>
+      </div>
+    </div>
+
+    <div class="sect">Por que a GA</div>
+    <div class="diff">
+      <div class="big">R$ 0<small>de infra recorrente</small></div>
+      <div class="dt">
+        Construo sistemas de gestão sob medida que rodam <b>sem custo de servidor ou mensalidade de plataforma</b> — o mesmo modelo que já entreguei pra varejo e para um studio de beleza, hoje em produção com a equipe lançando todo dia. <b>BI é o carro-chefe</b>: o foco não é só guardar dado, é virar decisão.
+      </div>
+    </div>
+
+    <div class="cta">
+      <div class="ct">Posso te mostrar os casos reais aqui mesmo.<small>Sistemas em produção, números reais, custo de infra zero — é só pedir pelo chat.</small></div>
+      <div class="link">GA BUSINESS<br>INSIGHTS</div>
+    </div>
+  </div>
+  <footer><span>GA Business Insights · Palmas/TO</span><span>Proposta técnica · 02 / 02</span></footer>
+</section>
+
+</body>
+</html>
