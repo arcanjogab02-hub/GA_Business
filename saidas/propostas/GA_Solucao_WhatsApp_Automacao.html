@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>GA · Automação de Respostas no WhatsApp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0a12;--card:#17131f;--card2:#13101b;--gold:#d4af37;--gold-soft:#e7c65a;
+    --green:#3fb950;--text:#fff;--muted:#9a93a8;--line:rgba(255,255,255,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  @page{size:A4;margin:0}
+  html,body{background:var(--bg)}
+  body{
+    font-family:'Inter',system-ui,sans-serif;color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .page{
+    width:210mm;min-height:297mm;padding:20mm 18mm 16mm;position:relative;
+    background:var(--bg);overflow:hidden;page-break-after:always;
+  }
+  .page:last-child{page-break-after:auto}
+  .page::before{
+    content:"";position:absolute;top:-30%;left:50%;transform:translateX(-50%);
+    width:120%;height:60%;
+    background:radial-gradient(ellipse 50% 100% at 50% 0%,rgba(212,175,55,.10),transparent 70%);
+    pointer-events:none;
+  }
+  .inner{position:relative;z-index:1}
+
+  .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px}
+  .head img{height:34px;width:auto}
+  .head .tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2.5px;color:var(--muted);text-transform:uppercase;text-align:right;line-height:1.8}
+  .head .tag b{color:var(--gold);font-weight:500;display:block;letter-spacing:2px}
+
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+  h1{font-size:32px;font-weight:900;letter-spacing:-1px;line-height:1.09;margin-bottom:14px}
+  h1 .g{color:var(--gold)}
+  .sub{color:var(--muted);font-size:13.5px;line-height:1.55;max-width:92%}
+  .sub b{color:#d9d5e2;font-weight:600}
+
+  .sect{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin:32px 0 16px}
+
+  /* SPIN steps */
+  .spin{display:flex;flex-direction:column}
+  .sp{display:grid;grid-template-columns:138px 1fr;gap:22px;align-items:start;padding:17px 4px;border-bottom:1px solid var(--line)}
+  .sp:last-child{border-bottom:none}
+  .sp.win{border-bottom:none}
+  .sp .lab{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding-top:3px}
+  .sp.win .lab{color:var(--gold)}
+  .sp .txt{font-size:14px;line-height:1.5;color:#d9d5e2}
+  .sp .txt b{color:#fff;font-weight:700}
+  .sp .txt .g{color:var(--gold-soft);font-weight:600}
+  .sp.win .txt{font-size:14.5px}
+
+  /* winning highlight */
+  .win-box{margin-top:6px;background:linear-gradient(160deg,rgba(212,175,55,.12),rgba(212,175,55,.02));border:1px solid rgba(212,175,55,.32);border-radius:14px;padding:18px 22px}
+  .win-box .lab{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .win-box .txt{font-size:15px;line-height:1.55;color:#fff;font-weight:600}
+  .win-box .txt span{color:var(--gold-soft)}
+
+  /* architecture diagram */
+  .arch{background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:22px 22px 18px}
+  .arow{display:flex;align-items:stretch;gap:8px}
+  .node{flex:1;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px 12px;text-align:center}
+  .node.ai{border-color:rgba(212,175,55,.4);background:rgba(212,175,55,.06)}
+  .node .nt{font-size:12px;font-weight:800;line-height:1.2}
+  .node .nd{font-size:9.5px;color:var(--muted);line-height:1.35;margin-top:5px}
+  .node .ni{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:5px}
+  .ar{display:flex;align-items:center;color:var(--gold);font-size:15px;font-weight:700;flex:0 0 14px;justify-content:center}
+  .branch{display:flex;align-items:center;gap:10px;margin:12px 0 12px 2px;padding-left:14px;border-left:2px dashed rgba(212,175,55,.35)}
+  .branch .bt{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
+  .badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.8px;color:#d9d5e2;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 12px}
+  .badge b{color:var(--gold-soft)}
+
+  .proof{margin-top:4px}
+  .proof .pd{font-size:13px;line-height:1.6;color:var(--muted);max-width:96%}
+  .proof .pd b{color:#fff;font-weight:600}
+  .proof .pd .g{color:var(--gold-soft);font-weight:600}
+
+  .map{margin-top:18px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:15px 20px;font-size:12.5px;line-height:1.55;color:#d9d5e2}
+  .map b{color:var(--gold-soft);font-weight:600}
+
+  .div{height:1px;background:var(--line);margin:22px 0}
+
+  .diff{display:flex;gap:24px;align-items:center;padding:4px 2px}
+  .diff .big{font-size:25px;font-weight:900;color:var(--gold);line-height:1.05;letter-spacing:-.5px;white-space:nowrap;text-align:center}
+  .diff .big small{display:block;font-size:9.5px;color:var(--muted);font-weight:500;letter-spacing:.5px;margin-top:7px;line-height:1.4}
+  .diff .dt{font-size:12.5px;line-height:1.6;color:#d9d5e2}
+  .diff .dt b{color:var(--gold-soft);font-weight:600}
+
+  .cta{margin-top:16px;background:linear-gradient(135deg,var(--gold-soft),var(--gold));border-radius:14px;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;color:#1a1206}
+  .cta .ct{font-size:14.5px;font-weight:800;line-height:1.35}
+  .cta .ct small{display:block;font-weight:600;font-size:11.5px;opacity:.82;margin-top:5px}
+  .cta .link{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-align:right;line-height:1.7}
+
+  footer{position:absolute;left:18mm;right:18mm;bottom:11mm;display:flex;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);z-index:1}
+</style>
+</head>
+<body>
+
+<!-- ===================== PAGE 1 — SPIN ===================== -->
+<section class="page">
+  <div class="inner">
+    <div class="head">
+      <img src="logo_ga.png" alt="GA Business Insights">
+      <div class="tag">Desenho de solução<b>Automação no WhatsApp</b></div>
+    </div>
+
+    <div class="kicker">Automação de respostas no WhatsApp + dados</div>
+    <h1>Responder na hora, 24/7 —<br>e <span class="g">cada conversa virando dado.</span></h1>
+    <p class="sub">Um sistema que automatiza as respostas das perguntas frequentes, <b>entende a intenção</b> de quem escreve e organiza tudo numa planilha pronta pra análise.</p>
+
+    <div class="sect">O cenário, sem rodeio</div>
+    <div class="spin">
+      <div class="sp">
+        <div class="lab">Situação</div>
+        <div class="txt">Hoje o atendimento no WhatsApp é manual. <b>As mesmas perguntas</b> chegam o dia inteiro e alguém responde uma a uma, no horário que dá.</div>
+      </div>
+      <div class="sp">
+        <div class="lab">Problema</div>
+        <div class="txt">Fora do expediente, ninguém responde. Dentro dele, a equipe gasta o dia em <b>FAQ repetido</b>. E cada conversa vira um dado que <b>se perde</b> — nada fica registrado de forma organizada.</div>
+      </div>
+      <div class="sp">
+        <div class="lab">Implicação</div>
+        <div class="txt">Cliente que não recebe resposta rápida <b>desiste</b> ou vai pro concorrente. A operação não escala porque depende de gente pra responder o básico. E sem registro estruturado, você <span class="g">decide no escuro</span>: não sabe o que mais perguntam, o horário de pico, nem quem ficou sem resposta.</div>
+      </div>
+    </div>
+
+    <div class="sect">A virada</div>
+    <div class="win-box">
+      <div class="lab">A solução</div>
+      <div class="txt">Um sistema que <span>responde na hora, 24/7</span>, com IA que entende a pergunta — não resposta engessada. Cada interação é registrada, organizada e <span>exportada pra planilha (Excel/CSV)</span> pronta pra análise. Você ganha tempo da equipe e, de brinde, passa a enxergar o que antes se perdia.</div>
+    </div>
+  </div>
+  <footer><span>GA Business Insights</span><span>01 / 02</span></footer>
+</section>
+
+<!-- ===================== PAGE 2 — ARQUITETURA + PROVA ===================== -->
+<section class="page">
+  <div class="inner">
+    <div class="head">
+      <img src="logo_ga.png" alt="GA Business Insights">
+      <div class="tag">Desenho de solução<b>Arquitetura · prova técnica</b></div>
+    </div>
+
+    <div class="kicker">Como o sistema é construído por dentro</div>
+    <div class="arch">
+      <div class="arow">
+        <div class="node"><span class="ni">Canal</span><div class="nt">WhatsApp</div><div class="nd">API oficial recebe e envia mensagem</div></div>
+        <div class="ar">→</div>
+        <div class="node"><span class="ni">Orquestração</span><div class="nt">Lógica (Python)</div><div class="nd">Recebe, roteia e decide a resposta</div></div>
+        <div class="ar">→</div>
+        <div class="node ai"><span class="ni">Inteligência</span><div class="nt">IA + Base</div><div class="nd">Entende a intenção e busca a resposta certa na base</div></div>
+        <div class="ar">→</div>
+        <div class="node"><span class="ni">Retorno</span><div class="nt">Resposta</div><div class="nd">Volta ao cliente na hora, no WhatsApp</div></div>
+      </div>
+      <div class="branch">
+        <span class="bt">↓ cada interação é registrada</span>
+      </div>
+      <div class="arow">
+        <div class="node"><span class="ni">Dados</span><div class="nt">Registro estruturado</div><div class="nd">Quem, quando, o que perguntou, status</div></div>
+        <div class="ar">→</div>
+        <div class="node"><span class="ni">Saída</span><div class="nt">Exportação Excel/CSV</div><div class="nd">Planilha gerada automaticamente</div></div>
+        <div class="ar">→</div>
+        <div class="node"><span class="ni">Leitura</span><div class="nt">Indicadores</div><div class="nd">Pico, temas, sem-resposta — pra decidir</div></div>
+      </div>
+      <div class="badges">
+        <span class="badge"><b>Serverless</b> · roda 24/7</span>
+        <span class="badge"><b>Escala</b> automática</span>
+        <span class="badge">Integração de <b>API</b></span>
+        <span class="badge">Controle de acesso</span>
+        <span class="badge"><b>LGPD</b> · região Brasil</span>
+      </div>
+    </div>
+
+    <div class="sect">Já construí essa arquitetura — projeto Salus</div>
+    <div class="proof">
+      <p class="pd">Desenvolvi o <span class="g">Salus</span>, um assistente de <b>IA generativa para o Tribunal de Justiça do Tocantins</b>: responde dúvidas dos servidores <b>ancorado nos documentos oficiais e citando a fonte</b>, no ar 24/7. Não é chatbot de resposta pronta — é IA que <b>entende a pergunta e busca a resposta certa na base</b>, rodando em infraestrutura serverless com escala automática, integração de API, controle de acesso e conformidade LGPD.</p>
+      <div class="map">
+        É <b>exatamente a mesma arquitetura</b> do seu projeto. No Salus, o canal é o portal do Tribunal; no seu, é o <b>WhatsApp</b> — e eu somo a camada de <b>dados e exportação pra planilha</b> que você precisa. O motor de entender pergunta e responder certo, eu já tenho rodando em ambiente institucional de alta exigência.</div>
+    </div>
+
+    <div class="div"></div>
+
+    <div class="diff">
+      <div class="big">IA real<small>entende a pergunta,<br>não responde script</small></div>
+      <div class="dt">
+        Experiência comprovada em <b>chatbot com IA + manipulação de dados pra relatório</b> — as duas pontas do seu projeto. Construo a automação <b>e</b> a inteligência que vira planilha e decisão. Comunicação direta e entrega no combinado.
+      </div>
+    </div>
+
+    <div class="cta">
+      <div class="ct">Quer ver o Salus funcionando antes de decidir?<small>Posso te mostrar por aqui. Me diga quais são as perguntas mais frequentes que você quer automatizar primeiro.</small></div>
+      <div class="link">GA BUSINESS<br>INSIGHTS</div>
+    </div>
+  </div>
+  <footer><span>GA Business Insights · Palmas/TO</span><span>02 / 02</span></footer>
+</section>
+
+</body>
+</html>
