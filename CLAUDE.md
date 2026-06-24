@@ -65,6 +65,7 @@ Só perguntar quando o padrão de repetição for claro — não pra tarefas pon
 - **Case de sucesso** → documentar em `clientes/<Cliente>/projetos/<Projeto>/caso.md` (reutilizar em conteúdo e pitches)
 - **Post novo** → produzir via `/publicar-tema` ou `/carrossel`, salvar em `marketing/`
 - **Relatório de ads** → rodar `/relatorio-ads` com os exports em `dados/`
+- **Proposta na Workana** → seguir os princípios de `_memoria/workana.md` (estilo consultivo, gancho com nome, escopo nomeado, CTA pra abrir chat)
 - **Mudança de foco ou prioridade** → atualizar `_memoria/estrategia.md`
 
 ---
