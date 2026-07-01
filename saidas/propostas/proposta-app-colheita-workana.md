@@ -29,7 +29,7 @@ Colheita tem um problema que quase todo app ignora: **no campo, o sinal falha**.
 
 Entrego por etapas — você vê funcionando antes de cada avanço, sem caixa-preta.
 
-Valor: **[definir]** · Prazo: **[definir]**
+**Investimento: R$ 5.900** (escopo fechado acima) · **Prazo: 6 semanas**, com entregas parciais desde a semana 2. Funcionalidades além desse escopo são orçadas à parte, sem surpresa no valor.
 
 Fico à disposição pra uma conversa rápida sobre o processo de colheita de vocês.
 
@@ -55,15 +55,15 @@ Tabela de decisão da /fluxo-cliente — bateu 4 sinais da coluna Stack 2:
 - **Painel web:** front consumindo Supabase, filtros + export CSV + camada de BI → /esp-webapp + /esp-bi
 - **Tags do anúncio (PHP/MySQL):** genéricas da plataforma — regra zero só vale se o cliente exigir explicitamente. Confirmar na call.
 
-### Precificação (pra decidir o [definir])
+### Precificação (decidida: R$ 5.900 — MVP pra ganhar a disputa)
 
-- Faixa do anúncio: R$ 5.000–16.000. Escopo real (2 aplicações + auth + offline + export) justifica **meio da faixa pra cima**.
-- Lição Studio Donnamar: escopo cresce — **fechar escopo por escrito** e precificar tela nova/evolução à parte.
-- Oferecer manutenção mensal separada (modelo Uno Prints: implantação + mensalidade).
+- Faixa do anúncio: R$ 5.000–16.000, com 10 concorrentes → entrada agressiva perto do piso, sem ser o piso.
+- Escopo MVP **fechado por escrito** (lição Studio Donnamar): tela nova, integração ou relatório extra = orçamento novo.
+- Margem real vem do pós: manutenção mensal separada (modelo Uno Prints: implantação + mensalidade).
 
-### Prazo (pra decidir o [definir])
+### Prazo (decidido: 6 semanas)
 
-Solo, 6h/dia de trabalho formal. Estimativa honesta: **6 a 8 semanas** por etapas. Não prometer menos.
+Solo, 6h/dia de trabalho formal. MVP (banco + PWA offline + painel) cabe em 6 semanas com entregas parciais desde a semana 2. Não prometer menos.
 
 ### IA (opcional, avaliar na call)
 
